@@ -3,30 +3,41 @@ import Hero from '@/components/common/Hero';
 import Card from '@/components/common/Card';
 import Button from '@/components/common/Button';
 import Spinner from '@/components/common/Spinner';
-import SourcePicker from '@/components/report/SourcePicker';
-import TemplatePicker from '@/components/report/TemplatePicker';
+import ReportControls from '@/components/report/ReportControls';
 import ReportEditor from '@/components/report/ReportEditor';
-import { REPORT_TEMPLATES } from '@/constants/reportTemplates';
+import SourcePickerModal from '@/components/report/SourcePickerModal';
 import { exportReport } from '@/utils/exporters';
+import { REPORT_TEMPLATES } from '@/constants/reportTemplates';
 import { useSearchResponse } from '@/stores/resultStore';
+import { useHistoryEntries, useHistoryActions } from '@/stores/historyStore';
 import { useReportDraft, useReportStatus, useReportActions } from '@/stores/reportStore';
 import { toast } from '@/stores/uiStore';
 
-/** 보고서 뷰어 (FNC-REP-01/02) — 근거 세션 선택 + 생성·편집·내보내기 */
+/** 보고서 뷰어 (FNC-REP-01/02) — 근거 세션은 모달에서 선택 */
 export default function ReportPage() {
   const response = useSearchResponse();
+  const entries = useHistoryEntries();
+  const { load } = useHistoryActions();
   const draft = useReportDraft();
   const status = useReportStatus();
   const { generate } = useReportActions();
   const [templateId, setTemplateId] = useState(REPORT_TEMPLATES[0].id);
   const [sessionId, setSessionId] = useState<string | null>(response?.sessionId ?? null);
+  const [pickerOpen, setPickerOpen] = useState(false);
 
-  // 새 검색이 완료되면 기본 선택을 현재 결과로 갱신
   useEffect(() => {
-    if (response) setSessionId(response.sessionId);
+    void load(); // 세션 라벨 표시용 히스토리 로드
+  }, [load]);
+
+  useEffect(() => {
+    if (response) setSessionId(response.sessionId); // 새 검색 시 기본값 갱신
   }, [response]);
 
   const busy = status === 'streaming';
+  const sourceLabel =
+    sessionId === response?.sessionId && response
+      ? '현재 검색 결과'
+      : (entries.find((e) => e.sessionId === sessionId)?.queryText ?? '근거 데이터를 선택하세요');
 
   const onGenerate = () => {
     if (!sessionId) {
@@ -50,32 +61,26 @@ export default function ReportPage() {
             근거를 <b>문서</b>로
           </>
         }
-        description="현재 검색 결과 또는 과거 검색 세션을 근거로 선택해 실무 양식 초안을 생성하고, 화면에서 직접 수정한 뒤 파일로 내보냅니다."
+        description="근거 데이터와 실무 양식을 선택해 초안을 생성하고, 화면에서 직접 수정한 뒤 파일로 내보냅니다."
       />
       <div className="grid grid-cols-[320px_1fr] items-start gap-5 max-[900px]:grid-cols-1">
         <Card>
-          <SourcePicker selected={sessionId} onSelect={setSessionId} disabled={busy} />
-          <TemplatePicker selected={templateId} onSelect={setTemplateId} disabled={busy} />
+          <ReportControls
+            sourceLabel={sourceLabel}
+            sourceSelected={Boolean(sessionId)}
+            templateId={templateId}
+            busy={busy}
+            onOpenPicker={() => setPickerOpen(true)}
+            onSelectTemplate={setTemplateId}
+          />
           <Button onClick={onGenerate} disabled={busy} className="mt-5 w-full">
             {busy ? <Spinner /> : '보고서 자동 생성'}
           </Button>
           <div className="mt-5 flex gap-2.5">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex-1"
-              disabled={!draft || status !== 'done'}
-              onClick={() => onExport('pdf')}
-            >
+            <Button variant="ghost" size="sm" className="flex-1" disabled={!draft || status !== 'done'} onClick={() => onExport('pdf')}>
               PDF
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex-1"
-              disabled={!draft || status !== 'done'}
-              onClick={() => onExport('docx')}
-            >
+            <Button variant="ghost" size="sm" className="flex-1" disabled={!draft || status !== 'done'} onClick={() => onExport('docx')}>
               DOCX
             </Button>
           </div>
@@ -86,11 +91,17 @@ export default function ReportPage() {
           </p>
         </Card>
         <Card className="flex justify-center bg-panel2 p-[26px]">
-          <div className="min-h-[400px] w-full max-w-[560px] rounded-md bg-[#F4F4F0] px-[46px] py-10 max-[640px]:px-5 max-[640px]:py-6 shadow-[0_16px_50px_rgba(0,0,0,.6)]">
+          <div className="min-h-[400px] w-full max-w-[560px] rounded-md bg-[#F4F4F0] px-[46px] py-10 shadow-[0_16px_50px_rgba(0,0,0,.6)] max-[640px]:px-5 max-[640px]:py-6">
             <ReportEditor />
           </div>
         </Card>
       </div>
+      <SourcePickerModal
+        open={pickerOpen}
+        selected={sessionId}
+        onSelect={setSessionId}
+        onClose={() => setPickerOpen(false)}
+      />
     </section>
   );
 }

@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import Icon from '@/components/common/Icon';
-import Label from '@/components/common/Label';
 import { useSearchResponse } from '@/stores/resultStore';
 import { useHistoryEntries, useHistoryActions } from '@/stores/historyStore';
 
@@ -30,9 +29,8 @@ export default function SourcePicker({ selected, onSelect, disabled }: Props) {
     }`;
 
   return (
-    <div className="mb-5">
-      <Label className="mb-3">근거 데이터 선택</Label>
-      <div className="flex max-h-[220px] flex-col gap-2 overflow-y-auto pr-1">
+    <div className="mb-4">
+      <div className="flex max-h-[380px] flex-col gap-2 overflow-y-auto pr-1">
         {response && (
           <button
             onClick={() => onSelect(response.sessionId)}
