@@ -49,7 +49,7 @@ export default function ImageAttach() {
         className="inline-flex h-10 items-center gap-1.5 rounded-[21px] border border-white/30 px-4 text-[13px] font-semibold transition-colors hover:bg-white/[.06]"
       >
         <Icon name="add_photo_alternate" size={17} />
-        이미지
+        <span className="max-[640px]:hidden">이미지</span>
       </button>
       <input
         ref={fileRef}

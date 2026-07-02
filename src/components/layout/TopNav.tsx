@@ -16,7 +16,7 @@ export default function TopNav() {
 
   return (
     <nav className="z-30 shrink-0 border-b border-[#151515] bg-black/70 backdrop-blur-[14px]">
-      <div className="flex h-[70px] items-center gap-[18px] px-[30px]">
+      <div className="flex h-[70px] items-center gap-[18px] px-[30px] max-[640px]:gap-2.5 max-[640px]:px-4">
         <BrandLogo />
         <div className="ml-[18px] flex flex-1 items-center gap-0.5 max-[900px]:overflow-x-auto">
           {NAV_GROUPS.map((g) => (
@@ -28,7 +28,7 @@ export default function TopNav() {
           className="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium text-mut transition-colors hover:text-ink"
         >
           <Icon name="history" size={18} />
-          히스토리
+          <span className="max-[640px]:hidden">히스토리</span>
         </button>
         {isAuthed ? (
           <button

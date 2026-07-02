@@ -11,7 +11,7 @@ export default function Hero({ eyebrow, title, description }: HeroProps) {
   return (
     <div className="relative mb-10 text-center">
       <div className="mb-[18px] text-[13px] tracking-[.16em] text-mut3">{eyebrow}</div>
-      <h1 className="text-[44px] font-light leading-[1.1] tracking-[-.03em] [&_b]:font-medium">
+      <h1 className="text-[44px] font-light leading-[1.1] tracking-[-.03em] max-[640px]:text-[30px] [&_b]:font-medium">
         {title}
       </h1>
       {description && (

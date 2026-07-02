@@ -86,7 +86,7 @@ export default function ReportPage() {
           </p>
         </Card>
         <Card className="flex justify-center bg-panel2 p-[26px]">
-          <div className="min-h-[400px] w-full max-w-[560px] rounded-md bg-[#F4F4F0] px-[46px] py-10 shadow-[0_16px_50px_rgba(0,0,0,.6)]">
+          <div className="min-h-[400px] w-full max-w-[560px] rounded-md bg-[#F4F4F0] px-[46px] py-10 max-[640px]:px-5 max-[640px]:py-6 shadow-[0_16px_50px_rgba(0,0,0,.6)]">
             <ReportEditor />
           </div>
         </Card>

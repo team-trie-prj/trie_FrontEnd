@@ -20,7 +20,7 @@ export default function QueryInput() {
   };
 
   return (
-    <div className="mx-auto flex max-w-[680px] items-center gap-3 rounded-[30px] border border-line3 bg-panel py-[7px] pl-[22px] pr-[7px]">
+    <div className="mx-auto flex max-w-[680px] items-center gap-3 rounded-[30px] border border-line3 bg-panel py-[7px] pl-[22px] pr-[7px] max-[640px]:gap-2 max-[640px]:pl-4">
       <Icon name="auto_awesome" size={21} className="text-ink" />
       <input
         value={queryText}
@@ -34,7 +34,7 @@ export default function QueryInput() {
       <button
         onClick={() => void onSubmit()}
         disabled={busy}
-        className="inline-flex h-[46px] items-center gap-2 rounded-[23px] bg-white px-[22px] text-sm font-semibold text-black hover:bg-[#e9e9e9] disabled:opacity-50"
+        className="inline-flex h-[46px] items-center gap-2 rounded-[23px] bg-white px-[22px] text-sm font-semibold text-black hover:bg-[#e9e9e9] disabled:opacity-50 max-[640px]:h-10 max-[640px]:px-4"
       >
         {busy ? <Spinner /> : '검색'}
       </button>
