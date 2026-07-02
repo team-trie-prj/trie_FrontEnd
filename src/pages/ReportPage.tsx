@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Hero from '@/components/common/Hero';
 import Card from '@/components/common/Card';
 import Button from '@/components/common/Button';
 import Spinner from '@/components/common/Spinner';
+import SourcePicker from '@/components/report/SourcePicker';
 import TemplatePicker from '@/components/report/TemplatePicker';
 import ReportEditor from '@/components/report/ReportEditor';
 import { REPORT_TEMPLATES } from '@/constants/reportTemplates';
@@ -11,20 +12,33 @@ import { useSearchResponse } from '@/stores/resultStore';
 import { useReportDraft, useReportStatus, useReportActions } from '@/stores/reportStore';
 import { toast } from '@/stores/uiStore';
 
-/** 보고서 뷰어 (FNC-REP-01/02) — 데모 종이 질감 미리보기 유지 */
+/** 보고서 뷰어 (FNC-REP-01/02) — 근거 세션 선택 + 생성·편집·내보내기 */
 export default function ReportPage() {
   const response = useSearchResponse();
   const draft = useReportDraft();
   const status = useReportStatus();
   const { generate } = useReportActions();
   const [templateId, setTemplateId] = useState(REPORT_TEMPLATES[0].id);
+  const [sessionId, setSessionId] = useState<string | null>(response?.sessionId ?? null);
+
+  // 새 검색이 완료되면 기본 선택을 현재 결과로 갱신
+  useEffect(() => {
+    if (response) setSessionId(response.sessionId);
+  }, [response]);
+
+  const busy = status === 'streaming';
 
   const onGenerate = () => {
-    if (!response) {
-      toast('먼저 통합 검색을 실행해 근거 데이터를 준비하세요.');
+    if (!sessionId) {
+      toast('근거 데이터를 선택하세요. (통합 검색 실행 또는 과거 세션 선택)');
       return;
     }
-    void generate(response.sessionId, templateId);
+    void generate(sessionId, templateId);
+  };
+
+  const onExport = (format: 'pdf' | 'docx') => {
+    if (!draft) return;
+    void exportReport(draft.markdown, format).catch(() => toast('내보내기에 실패했습니다.'));
   };
 
   return (
@@ -36,17 +50,14 @@ export default function ReportPage() {
             근거를 <b>문서</b>로
           </>
         }
-        description="검색된 다중 출처 데이터를 종합해 실무 양식에 맞는 초안을 생성하고, 화면에서 직접 수정한 뒤 파일로 내보냅니다."
+        description="현재 검색 결과 또는 과거 검색 세션을 근거로 선택해 실무 양식 초안을 생성하고, 화면에서 직접 수정한 뒤 파일로 내보냅니다."
       />
-      <div className="grid grid-cols-[300px_1fr] items-start gap-5 max-[900px]:grid-cols-1">
+      <div className="grid grid-cols-[320px_1fr] items-start gap-5 max-[900px]:grid-cols-1">
         <Card>
-          <TemplatePicker
-            selected={templateId}
-            onSelect={setTemplateId}
-            disabled={status === 'streaming'}
-          />
-          <Button onClick={onGenerate} disabled={status === 'streaming'} className="mt-5 w-full">
-            {status === 'streaming' ? <Spinner /> : '보고서 자동 생성'}
+          <SourcePicker selected={sessionId} onSelect={setSessionId} disabled={busy} />
+          <TemplatePicker selected={templateId} onSelect={setTemplateId} disabled={busy} />
+          <Button onClick={onGenerate} disabled={busy} className="mt-5 w-full">
+            {busy ? <Spinner /> : '보고서 자동 생성'}
           </Button>
           <div className="mt-5 flex gap-2.5">
             <Button
@@ -54,7 +65,7 @@ export default function ReportPage() {
               size="sm"
               className="flex-1"
               disabled={!draft || status !== 'done'}
-              onClick={() => exportReport(draft!.markdown, 'pdf')}
+              onClick={() => onExport('pdf')}
             >
               PDF
             </Button>
@@ -63,13 +74,13 @@ export default function ReportPage() {
               size="sm"
               className="flex-1"
               disabled={!draft || status !== 'done'}
-              onClick={() => exportReport(draft!.markdown, 'docx')}
+              onClick={() => onExport('docx')}
             >
               DOCX
             </Button>
           </div>
           <p className="mt-3 text-center text-[11px] text-mut4">
-            {!response ? '검색 결과가 없어 생성 시 안내가 표시됩니다' : '편집: 완료 후 본문 클릭'}
+            생성 완료 후 본문을 클릭하면 바로 편집할 수 있습니다
           </p>
         </Card>
         <Card className="flex justify-center bg-panel2 p-[26px]">
