@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== 데모 버전 디자인 토큰/베이스 그대로 유지 ===== */
+:root {
+  --bg: #000;
+  --panel: #0a0a0a;
+  --line: #1a1a1a;
+  --ink: #f4f4f4;
+  --mut: #8e8e8e;
+  --danger: #ff6b6b;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-bg text-ink font-sans text-sm antialiased;
+}
+
+/* Material Symbols */
+.msym {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+  font-feature-settings: 'liga' 1;
+}
+
+/* 스크롤바 (데모 동일) */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 8px;
+  border: 3px solid #000;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.screen-fade {
+  animation: fade 0.25s ease;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
