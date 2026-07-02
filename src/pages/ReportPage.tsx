@@ -79,8 +79,10 @@ export default function ReportPage() {
               DOCX
             </Button>
           </div>
-          <p className="mt-3 text-center text-[11px] text-mut4">
+          <p className="mt-3 text-center text-[11px] leading-[1.6] text-mut4">
             생성 완료 후 본문을 클릭하면 바로 편집할 수 있습니다
+            <br />
+            HWP: 다운받은 DOCX를 한글(한컴오피스)에서 바로 열 수 있습니다
           </p>
         </Card>
         <Card className="flex justify-center bg-panel2 p-[26px]">
