@@ -55,6 +55,8 @@ export interface SearchHit {
 export interface SearchResponse {
   sessionId: string;
   routing: RoutingResult;
+  /** LLM 에이전트가 검색 결과를 종합한 자연어 답변 (FNC-VIW-01 상단 노출) */
+  answer?: string;
   /** 최대 10개 청크 제한 (FNC-SRC-03) */
   hits: SearchHit[];
   /** VLM 이미지 분석 맥락 텍스트 */

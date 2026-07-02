@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Hero from '@/components/common/Hero';
 import Chip from '@/components/common/Chip';
 import Button from '@/components/common/Button';
+import AnswerCard from '@/components/results/AnswerCard';
 import ResultCard from '@/components/results/ResultCard';
 import StatsPanel from '@/components/results/StatsPanel';
 import VlmContextCard from '@/components/results/VlmContextCard';
@@ -53,6 +54,7 @@ export default function ResultsPage() {
         ))}
       </div>
       <div className="mx-auto flex max-w-[860px] flex-col gap-[13px]">
+        <AnswerCard response={response} />
         {response.vlmContext && <VlmContextCard context={response.vlmContext} />}
         {hits.map((h) => (
           <ResultCard key={h.id} hit={h} />
