@@ -35,13 +35,12 @@ export default function HistorySidebar() {
       )}
       <aside
         className={`fixed right-0 top-0 z-50 flex h-full w-[320px] flex-col border-l border-line bg-[#070707] transition-transform duration-200 ${
-          open ? 'translate-x-0' : 'translate-x-full'
+          open ? 'visible translate-x-0' : 'invisible translate-x-full'
         }`}
-        aria-hidden={!open}
       >
         <div className="flex h-[70px] shrink-0 items-center justify-between border-b border-line px-5">
           <span className="text-sm font-semibold tracking-[.06em]">검색 히스토리</span>
-          <button onClick={() => toggleSidebar(false)} className="text-mut hover:text-ink">
+          <button onClick={() => toggleSidebar(false)} className="text-mut hover:text-ink" aria-label="히스토리 닫기">
             <Icon name="close" size={20} />
           </button>
         </div>

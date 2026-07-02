@@ -26,6 +26,13 @@ export default function UploadDropzone() {
           dragOver ? 'border-[#555]' : 'border-[#2A2A2A]'
         }`}
         role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            fileRef.current?.click();
+          }
+        }}
         aria-label="문서 업로드"
       >
         <Icon name="upload_file" size={34} className="text-ink" />

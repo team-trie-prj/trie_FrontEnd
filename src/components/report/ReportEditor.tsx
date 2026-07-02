@@ -26,6 +26,7 @@ export default function ReportEditor() {
   if (editing) {
     return (
       <textarea
+        aria-label="보고서 마크다운 편집"
         autoFocus
         value={draft.markdown}
         onChange={(e) => setMarkdown(e.target.value)}

@@ -16,8 +16,8 @@ export default function StatChart({ stats }: { stats: StatRow[] }) {
       <ResponsiveContainer>
         <BarChart data={stats} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
           <CartesianGrid stroke="#1A1A1A" vertical={false} />
-          <XAxis dataKey="label" stroke="#6E6E6E" fontSize={12} tickLine={false} />
-          <YAxis stroke="#6E6E6E" fontSize={12} tickLine={false} axisLine={false} />
+          <XAxis dataKey="label" stroke="#7C7C7C" fontSize={12} tickLine={false} />
+          <YAxis stroke="#7C7C7C" fontSize={12} tickLine={false} axisLine={false} />
           <Tooltip
             cursor={{ fill: 'rgba(255,255,255,.04)' }}
             contentStyle={{

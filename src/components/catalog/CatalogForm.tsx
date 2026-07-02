@@ -38,10 +38,10 @@ export default function CatalogForm() {
     <Card>
       <Label className="mb-4">신규 API 등록</Label>
       <div className="flex flex-col gap-3.5">
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="API 이름 (예: 도로교통공단 사고 통계)" className={inputCls} />
-        <input value={endpointUrl} onChange={(e) => setEndpointUrl(e.target.value)} placeholder="엔드포인트 URL (https://apis.data.go.kr/…)" className={inputCls} />
-        <input value={paramsRaw} onChange={(e) => setParamsRaw(e.target.value)} placeholder="파라미터 규격 — 쉼표 구분, 필수는 * (예: siDo*, year)" className={inputCls} />
-        <input value={apiKey} onChange={(e) => setApiKey(e.target.value)} type="password" placeholder="공공데이터포털 일반 인증키" className={inputCls} autoComplete="off" />
+        <input value={name} onChange={(e) => setName(e.target.value)} aria-label="API 이름" placeholder="API 이름 (예: 도로교통공단 사고 통계)" className={inputCls} />
+        <input value={endpointUrl} onChange={(e) => setEndpointUrl(e.target.value)} aria-label="엔드포인트 URL" placeholder="엔드포인트 URL (https://apis.data.go.kr/…)" className={inputCls} />
+        <input value={paramsRaw} onChange={(e) => setParamsRaw(e.target.value)} aria-label="파라미터 규격" placeholder="파라미터 규격 — 쉼표 구분, 필수는 * (예: siDo*, year)" className={inputCls} />
+        <input value={apiKey} onChange={(e) => setApiKey(e.target.value)} type="password" aria-label="공공데이터포털 일반 인증키" placeholder="공공데이터포털 일반 인증키" className={inputCls} autoComplete="off" />
       </div>
       <Button onClick={() => void onSubmit()} disabled={!valid || registering} className="mt-5 w-full">
         {registering ? <Spinner /> : '등록 및 연동 테스트'}

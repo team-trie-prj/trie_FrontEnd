@@ -21,7 +21,7 @@ export default function Modal({ title, onClose, children }: ModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-base font-semibold">{title}</h3>
+          <h2 className="text-base font-semibold">{title}</h2>
           <button onClick={onClose} className="text-mut hover:text-ink" aria-label="닫기">
             <Icon name="close" size={20} />
           </button>

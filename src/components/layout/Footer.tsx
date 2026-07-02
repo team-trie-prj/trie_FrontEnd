@@ -18,9 +18,9 @@ export default function Footer() {
         </div>
         {NAV_GROUPS.map((g) => (
           <div key={g.key}>
-            <h4 className="mb-3.5 text-[11px] font-semibold uppercase tracking-[.12em] text-mut3">
+            <p className="mb-3.5 text-[11px] font-semibold uppercase tracking-[.12em] text-mut3">
               {g.label}
-            </h4>
+            </p>
             {g.items.map((i) => (
               <Link
                 key={i.to}

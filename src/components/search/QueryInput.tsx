@@ -26,6 +26,7 @@ export default function QueryInput() {
         value={queryText}
         onChange={(e) => setQueryText(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && !busy && void onSubmit()}
+        aria-label="검색 질의 입력"
         placeholder="예) 대전 유성구 포트홀 민원 통계를 찾아줘"
         className="flex-1 border-none bg-transparent text-base text-ink outline-none placeholder:text-mut3"
       />

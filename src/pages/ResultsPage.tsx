@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Hero from '@/components/common/Hero';
 import Chip from '@/components/common/Chip';
 import Button from '@/components/common/Button';
@@ -18,6 +18,7 @@ const FILTERS: { key: HitSource | 'all'; label: string }[] = [
 
 /** 검색 결과 화면 (FNC-SRC-03 / FNC-VIW-01 / FNC-VIW-02) */
 export default function ResultsPage() {
+  const navigate = useNavigate();
   const response = useSearchResponse();
   const filter = useResultFilter();
   const { setFilter } = useResultActions();
@@ -26,9 +27,7 @@ export default function ResultsPage() {
     return (
       <section className="screen-fade py-20 text-center">
         <p className="mb-6 text-mut">표시할 검색 결과가 없습니다.</p>
-        <Link to={ROUTES.search}>
-          <Button>통합 검색으로 이동</Button>
-        </Link>
+        <Button onClick={() => navigate(ROUTES.search)}>통합 검색으로 이동</Button>
       </section>
     );
   }
@@ -61,14 +60,12 @@ export default function ResultsPage() {
         {hits.length === 0 && <p className="py-8 text-center text-mut3">해당 출처의 결과 없음</p>}
         <StatsPanel hits={response.hits} />
         <div className="mt-2 flex gap-3">
-          <Link to={ROUTES.search} className="flex-1">
-            <Button variant="ghost" className="w-full">
-              새 검색
-            </Button>
-          </Link>
-          <Link to={ROUTES.report} className="flex-1">
-            <Button className="w-full">보고서로 만들기</Button>
-          </Link>
+          <Button variant="ghost" className="flex-1" onClick={() => navigate(ROUTES.search)}>
+            새 검색
+          </Button>
+          <Button className="flex-1" onClick={() => navigate(ROUTES.report)}>
+            보고서로 만들기
+          </Button>
         </div>
       </div>
       <SnippetModal />
