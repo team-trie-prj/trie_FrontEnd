@@ -20,7 +20,7 @@ export default function QueryInput() {
   };
 
   return (
-    <div className="mx-auto flex max-w-[680px] items-center gap-3 rounded-[30px] border border-line3 bg-panel py-[7px] pl-[22px] pr-[7px] max-[640px]:gap-2 max-[640px]:pl-4">
+    <div className="mx-auto flex max-w-[680px] flex-wrap items-center gap-3 rounded-[30px] border border-line3 bg-panel py-[7px] pl-[22px] pr-[7px] max-[640px]:gap-2 max-[640px]:pl-4">
       <Icon name="auto_awesome" size={21} className="text-ink" />
       <input
         value={queryText}
@@ -28,7 +28,7 @@ export default function QueryInput() {
         onKeyDown={(e) => e.key === 'Enter' && !busy && void onSubmit()}
         aria-label="검색 질의 입력"
         placeholder="예) 대전 유성구 포트홀 민원 통계를 찾아줘"
-        className="flex-1 border-none bg-transparent text-base text-ink outline-none placeholder:text-mut3"
+        className="min-w-[180px] flex-1 border-none bg-transparent text-base text-ink outline-none placeholder:text-mut3"
       />
       <ImageAttach />
       <button

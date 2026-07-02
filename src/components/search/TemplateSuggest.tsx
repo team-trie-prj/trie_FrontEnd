@@ -35,7 +35,7 @@ export default function TemplateSuggest() {
             <span className="rounded-md border border-line2 px-2 py-0.5 text-[11px] text-mut">
               {t.domain}
             </span>
-            <span className="flex-1 text-sm font-medium">{t.label}</span>
+            <span className="min-w-0 flex-1 truncate text-sm font-medium">{t.label}</span>
             <Icon name="north_east" size={15} className="text-mut3" />
           </button>
         ))}

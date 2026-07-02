@@ -45,7 +45,7 @@ export default function ResultsPage() {
         }
         description="사내 문서 청크·공공데이터 수치·이미지 분석 맥락을 출처 배지와 함께 제공합니다. 배지를 클릭하면 근거 스니펫을 대조할 수 있어요."
       />
-      <div className="mb-5 flex justify-center gap-2">
+      <div className="mb-5 flex flex-wrap justify-center gap-2">
         {FILTERS.map((f) => (
           <Chip key={f.key} active={filter === f.key} onClick={() => setFilter(f.key)}>
             {f.label}
@@ -59,7 +59,7 @@ export default function ResultsPage() {
         ))}
         {hits.length === 0 && <p className="py-8 text-center text-mut3">해당 출처의 결과 없음</p>}
         <StatsPanel hits={response.hits} />
-        <div className="mt-2 flex gap-3">
+        <div className="mt-2 flex flex-wrap gap-3 [&>button]:min-w-[160px]">
           <Button variant="ghost" className="flex-1" onClick={() => navigate(ROUTES.search)}>
             새 검색
           </Button>

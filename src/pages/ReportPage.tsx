@@ -63,7 +63,7 @@ export default function ReportPage() {
         }
         description="근거 데이터와 실무 양식을 선택해 초안을 생성하고, 화면에서 직접 수정한 뒤 파일로 내보냅니다."
       />
-      <div className="grid grid-cols-[320px_1fr] items-start gap-5 max-[900px]:grid-cols-1">
+      <div className="grid grid-cols-[minmax(260px,320px)_minmax(0,1fr)] items-start gap-5 max-[900px]:grid-cols-1">
         <Card>
           <ReportControls
             sourceLabel={sourceLabel}
@@ -76,7 +76,7 @@ export default function ReportPage() {
           <Button onClick={onGenerate} disabled={busy} className="mt-5 w-full">
             {busy ? <Spinner /> : '보고서 자동 생성'}
           </Button>
-          <div className="mt-5 flex gap-2.5">
+          <div className="mt-5 flex flex-wrap gap-2.5 [&>button]:min-w-[100px]">
             <Button variant="ghost" size="sm" className="flex-1" disabled={!draft || status !== 'done'} onClick={() => onExport('pdf')}>
               PDF
             </Button>

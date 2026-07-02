@@ -18,7 +18,7 @@ export default function ResultCard({ hit }: { hit: SearchHit }) {
 
   return (
     <Card hover className="p-[18px]">
-      <div className="mb-2.5 flex items-center justify-between gap-3">
+      <div className="mb-2.5 flex flex-wrap items-center justify-between gap-2">
         <SourceBadge hit={hit} onOpenSnippet={openSnippet} />
         <div className="flex items-center gap-3">
           <span className="text-[11px] tracking-[.1em] text-mut3">
