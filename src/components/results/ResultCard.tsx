@@ -17,11 +17,11 @@ export default function ResultCard({ hit }: { hit: SearchHit }) {
   const { openSnippet } = useResultActions();
 
   return (
-    <Card hover className="p-[1.125rem]">
+    <Card hover className="p-[18px]">
       <div className="mb-2.5 flex flex-wrap items-center justify-between gap-2">
         <SourceBadge hit={hit} onOpenSnippet={openSnippet} />
         <div className="flex items-center gap-3">
-          <span className="text-[0.6875rem] tracking-[.1em] text-mut3">
+          <span className="text-[11px] tracking-[.1em] text-mut3">
             {SOURCE_LABEL[hit.source]}
           </span>
           <span className="text-xl font-light">{hit.score.toFixed(2)}</span>
@@ -39,7 +39,7 @@ export default function ResultCard({ hit }: { hit: SearchHit }) {
         />
       </button>
       <p
-        className={`mt-1.5 text-[0.8125rem] leading-[1.7] text-mut2 ${expanded ? '' : 'line-clamp-2'}`}
+        className={`mt-1.5 text-[13px] leading-[1.7] text-mut2 ${expanded ? '' : 'line-clamp-2'}`}
       >
         {hit.text}
       </p>

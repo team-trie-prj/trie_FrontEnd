@@ -18,13 +18,13 @@ export default function DataPage() {
         }
         description="도로 시설물·안전 관리 지침서(PDF/DOCX)를 업로드하면 텍스트 파싱과 정제를 거쳐 시맨틱 청킹 후 Vector DB에 적재됩니다."
       />
-      <div className="mx-auto max-w-[47.5rem]">
+      <div className="mx-auto max-w-[760px]">
         <UploadDropzone />
         <UploadList />
         <DocumentStatus />
         <Card className="mt-6">
           <Label className="mb-3.5">처리 파이프라인</Label>
-          <ol className="space-y-2.5 text-[0.8125rem] leading-[1.7] text-mut2">
+          <ol className="space-y-2.5 text-[13px] leading-[1.7] text-mut2">
             <li>1. 확장자 변조 검증 후 서버 로컬 스토리지에 저장</li>
             <li>2. PyPDF·python-docx 백그라운드 파싱으로 텍스트 추출</li>
             <li>3. 공백 정제·인코딩 복원·특수문자 필터링 전처리</li>

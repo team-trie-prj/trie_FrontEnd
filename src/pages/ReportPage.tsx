@@ -76,7 +76,7 @@ export default function ReportPage() {
           <Button onClick={onGenerate} disabled={busy} className="mt-5 w-full">
             {busy ? <Spinner /> : '보고서 자동 생성'}
           </Button>
-          <div className="mt-5 flex flex-wrap gap-2.5 [&>button]:min-w-[6.25rem]">
+          <div className="mt-5 flex flex-wrap gap-2.5 [&>button]:min-w-[100px]">
             <Button variant="ghost" size="sm" className="flex-1" disabled={!draft || status !== 'done'} onClick={() => onExport('pdf')}>
               PDF
             </Button>
@@ -84,14 +84,14 @@ export default function ReportPage() {
               DOCX
             </Button>
           </div>
-          <p className="mt-3 text-center text-[0.6875rem] leading-[1.6] text-mut4">
+          <p className="mt-3 text-center text-[11px] leading-[1.6] text-mut4">
             생성 완료 후 본문을 클릭하면 바로 편집할 수 있습니다
             <br />
             HWP: 다운받은 DOCX를 한글(한컴오피스)에서 바로 열 수 있습니다
           </p>
         </Card>
-        <Card className="flex justify-center bg-panel2 p-[1.625rem]">
-          <div className="min-h-[25rem] w-full max-w-[35rem] rounded-md bg-[#F4F4F0] px-[clamp(20px,3vw,46px)] py-10 shadow-[0_16px_50px_rgba(0,0,0,.6)] max-[480px]:py-6">
+        <Card className="flex justify-center bg-panel2 p-[26px]">
+          <div className="min-h-[400px] w-full max-w-[560px] rounded-md bg-[#F4F4F0] px-[clamp(20px,3vw,46px)] py-10 shadow-[0_16px_50px_rgba(0,0,0,.6)] max-[480px]:py-6">
             <ReportEditor />
           </div>
         </Card>

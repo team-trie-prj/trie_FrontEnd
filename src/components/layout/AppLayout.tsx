@@ -11,13 +11,13 @@ export default function AppLayout() {
       <TopNav />
       <main className="relative flex-1 overflow-y-auto overflow-x-hidden bg-black">
         <div
-          className="pointer-events-none absolute -top-[6.25rem] left-1/2 h-[28.75rem] w-[62.5rem] -translate-x-1/2"
+          className="pointer-events-none absolute -top-[100px] left-1/2 h-[460px] w-[1000px] -translate-x-1/2"
           style={{
             background:
               'radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255,255,255,.07), rgba(255,255,255,0) 70%)',
           }}
         />
-        <div className="relative mx-auto max-w-wrap px-9 pb-[4.375rem] pt-12 max-[480px]:px-5 max-[480px]:pt-8">
+        <div className="relative mx-auto max-w-wrap px-9 pb-[70px] pt-12 max-[480px]:px-5 max-[480px]:pt-8">
           <Outlet />
         </div>
         <Footer />

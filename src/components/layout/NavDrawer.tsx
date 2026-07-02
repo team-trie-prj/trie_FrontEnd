@@ -22,11 +22,11 @@ function DrawerPanel({ onClose }: { onClose: () => void }) {
       <div className="fixed inset-0 z-40 bg-black/60" onClick={onClose} />
       <div
         ref={trapRef}
-        className="screen-fade fixed inset-y-0 left-0 z-50 flex w-[16.25rem] max-w-[80vw] flex-col border-r border-line bg-[#070707]"
+        className="screen-fade fixed inset-y-0 left-0 z-50 flex w-[260px] max-w-[80vw] flex-col border-r border-line bg-[#070707]"
         role="dialog"
         aria-label="메뉴"
       >
-        <div className="flex h-[3.875rem] shrink-0 items-center justify-between border-b border-line px-4">
+        <div className="flex h-[62px] shrink-0 items-center justify-between border-b border-line px-4">
           <span className="text-sm font-semibold">메뉴</span>
           <button onClick={onClose} className="text-mut hover:text-ink" aria-label="메뉴 닫기">
             <Icon name="close" size={20} />
@@ -35,7 +35,7 @@ function DrawerPanel({ onClose }: { onClose: () => void }) {
         <nav className="flex-1 overflow-y-auto p-3">
           {NAV_GROUPS.map((g) => (
             <div key={g.key} className="mb-4">
-              <p className="mb-1.5 px-2 text-[0.6875rem] font-semibold uppercase tracking-[.12em] text-mut3">
+              <p className="mb-1.5 px-2 text-[11px] font-semibold uppercase tracking-[.12em] text-mut3">
                 {g.label}
               </p>
               {g.items.map((item) => (
@@ -44,7 +44,7 @@ function DrawerPanel({ onClose }: { onClose: () => void }) {
                   to={item.to}
                   onClick={onClose}
                   className={({ isActive }) =>
-                    `mb-0.5 flex items-center gap-2.5 rounded-[0.625rem] px-2.5 py-2.5 text-sm font-medium transition-colors ${
+                    `mb-0.5 flex items-center gap-2.5 rounded-[10px] px-2.5 py-2.5 text-sm font-medium transition-colors ${
                       isActive ? 'bg-[#161616] text-ink' : 'text-mut hover:text-ink'
                     }`
                   }

@@ -12,17 +12,6 @@
   --danger: #ff6b6b;
 }
 
-/* 확대(zoom) 상쇄: 루트 폰트를 화면폭 비례로 두어 모든 rem 크기가
-   확대 배율만큼 줄어듦 → 콘텐츠의 시각적 크기·정보량이 유지됨 */
-html {
-  font-size: clamp(8px, 1vw, 16px);
-}
-@media (max-width: 520px) {
-  html {
-    font-size: clamp(13px, 4vw, 15px); /* 실제 모바일 가독성 확보 */
-  }
-}
-
 html,
 body,
 #root {

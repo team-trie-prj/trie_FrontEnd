@@ -31,9 +31,9 @@ export default function ImageAttach() {
 
   if (image) {
     return (
-      <span className="inline-flex items-center gap-2 rounded-[1.25rem] border border-line2 py-1 pl-1.5 pr-2.5 text-xs text-[#C8C8C8]">
+      <span className="inline-flex items-center gap-2 rounded-[20px] border border-line2 py-1 pl-1.5 pr-2.5 text-xs text-[#C8C8C8]">
         <img src={image.dataUrl} alt="" className="h-7 w-7 rounded-full object-cover" />
-        <span className="max-w-[7.5rem] truncate">{image.name}</span>
+        <span className="max-w-[120px] truncate">{image.name}</span>
         <span className="text-mut4">{formatBytes(image.size)}</span>
         <button onClick={clearImage} className="text-mut hover:text-ink" aria-label="이미지 제거">
           <Icon name="close" size={14} />
@@ -46,7 +46,7 @@ export default function ImageAttach() {
     <>
       <button
         onClick={() => fileRef.current?.click()}
-        className="inline-flex h-10 items-center gap-1.5 rounded-[1.3125rem] border border-white/30 px-4 text-[0.8125rem] font-semibold transition-colors hover:bg-white/[.06]"
+        className="inline-flex h-10 items-center gap-1.5 rounded-[21px] border border-white/30 px-4 text-[13px] font-semibold transition-colors hover:bg-white/[.06]"
       >
         <Icon name="add_photo_alternate" size={17} />
         <span className="max-[480px]:hidden">이미지</span>

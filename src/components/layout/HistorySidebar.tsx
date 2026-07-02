@@ -23,7 +23,7 @@ export default function HistorySidebar() {
         <div className="fixed inset-0 z-40 bg-black/50" onClick={() => toggleSidebar(false)} />
       )}
       <aside
-        className={`fixed right-0 top-0 z-50 h-full w-[20rem] max-w-[85vw] border-l border-line bg-[#070707] transition-transform duration-200 ${
+        className={`fixed right-0 top-0 z-50 h-full w-[320px] max-w-[85vw] border-l border-line bg-[#070707] transition-transform duration-200 ${
           open ? 'visible translate-x-0' : 'invisible translate-x-full'
         }`}
       >
@@ -52,7 +52,7 @@ function SidebarContent({ onClose }: { onClose: () => void }) {
 
   return (
     <div ref={trapRef} className="flex h-full flex-col">
-      <div className="flex h-[4.375rem] shrink-0 items-center justify-between border-b border-line px-5">
+      <div className="flex h-[70px] shrink-0 items-center justify-between border-b border-line px-5">
         <span className="text-sm font-semibold tracking-[.06em]">검색 히스토리</span>
         <button onClick={onClose} className="text-mut hover:text-ink" aria-label="히스토리 닫기">
           <Icon name="close" size={20} />
@@ -60,7 +60,7 @@ function SidebarContent({ onClose }: { onClose: () => void }) {
       </div>
       <div className="flex-1 space-y-2.5 overflow-y-auto p-4">
         {entries.length === 0 && (
-          <p className="pt-8 text-center text-[0.8125rem] text-mut3">저장된 히스토리가 없습니다.</p>
+          <p className="pt-8 text-center text-[13px] text-mut3">저장된 히스토리가 없습니다.</p>
         )}
         {entries.map((e) => (
           <HistoryItem
@@ -71,7 +71,7 @@ function SidebarContent({ onClose }: { onClose: () => void }) {
           />
         ))}
       </div>
-      <div className="border-t border-line p-4 text-center text-[0.6875rem] text-mut4">
+      <div className="border-t border-line p-4 text-center text-[11px] text-mut4">
         최대 50개 보관 · 초과 시 오래된 항목부터 삭제 (FIFO)
       </div>
     </div>

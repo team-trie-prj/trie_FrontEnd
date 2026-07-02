@@ -10,7 +10,7 @@ export default function NavDropdown({ group }: { group: NavGroup }) {
   return (
     <div className="group relative">
       <button
-        className={`relative inline-flex items-center gap-[0.3125rem] whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
+        className={`relative inline-flex items-center gap-[5px] whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
           active ? 'text-ink' : 'text-mut group-hover:text-ink'
         }`}
       >
@@ -29,17 +29,17 @@ export default function NavDropdown({ group }: { group: NavGroup }) {
           <path d="M6 9l6 6 6-6" />
         </svg>
         {active && (
-          <span className="absolute inset-x-3.5 -bottom-[1.4375rem] h-0.5 bg-white max-[900px]:hidden" aria-hidden />
+          <span className="absolute inset-x-3.5 -bottom-[23px] h-0.5 bg-white max-[900px]:hidden" aria-hidden />
         )}
       </button>
-      <div className="invisible absolute left-0 top-[calc(100%+10px)] z-40 min-w-[16.5rem] -translate-y-1.5 rounded-[0.875rem] border border-line2 bg-[#0C0C0C] p-2 opacity-0 shadow-[0_20px_50px_rgba(0,0,0,.6)] transition-all duration-[180ms] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+      <div className="invisible absolute left-0 top-[calc(100%+10px)] z-40 min-w-[264px] -translate-y-1.5 rounded-[14px] border border-line2 bg-[#0C0C0C] p-2 opacity-0 shadow-[0_20px_50px_rgba(0,0,0,.6)] transition-all duration-[180ms] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
         {group.items.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
-            className="flex items-start gap-3 rounded-[0.625rem] px-3 py-[0.6875rem] transition-colors hover:bg-[#161616]"
+            className="flex items-start gap-3 rounded-[10px] px-3 py-[11px] transition-colors hover:bg-[#161616]"
           >
-            <span className="flex h-[2.125rem] w-[2.125rem] shrink-0 items-center justify-center rounded-[0.5625rem] border border-[#2A2A2A]">
+            <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[9px] border border-[#2A2A2A]">
               <Icon name={item.icon} size={18} />
             </span>
             <span>

@@ -16,7 +16,7 @@ const CatalogPage = lazy(() => import('@/pages/CatalogPage'));
 const ReportPage = lazy(() => import('@/pages/ReportPage'));
 
 const fallback = (
-  <div className="flex min-h-[18.75rem] items-center justify-center">
+  <div className="flex min-h-[300px] items-center justify-center">
     <Spinner />
   </div>
 );
