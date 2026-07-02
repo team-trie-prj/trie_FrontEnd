@@ -38,7 +38,7 @@ export default function DocumentStatus() {
 
   return (
     <Card className="mt-6 overflow-hidden p-0">
-      <div className="flex items-center justify-between gap-3 px-5 py-4 max-[480px]:flex-col max-[480px]:items-stretch">
+      <div className="flex items-center justify-between gap-3 px-5 py-4 max-[768px]:flex-col max-[768px]:items-stretch">
         <Label>지식 베이스 적재 현황</Label>
         <div className="flex items-center gap-2 rounded-[10px] border border-line3 bg-panel2 px-3 py-2">
           <Icon name="search" size={15} className="shrink-0 text-mut3" />
@@ -47,7 +47,7 @@ export default function DocumentStatus() {
             onChange={(e) => setKeyword(e.target.value)}
             aria-label="적재 문서 검색"
             placeholder="파일명·도메인 검색"
-            className="w-[170px] border-none bg-transparent text-[13px] text-ink outline-none placeholder:text-mut4 max-[480px]:w-full"
+            className="w-[170px] border-none bg-transparent text-[13px] text-ink outline-none placeholder:text-mut4 max-[768px]:w-full"
           />
         </div>
       </div>
@@ -57,8 +57,8 @@ export default function DocumentStatus() {
           ['임베딩 청크', docs ? totalChunks.toLocaleString() : '—'],
           ['총 용량', docs ? formatBytes(totalSize) : '—'],
         ].map(([k, v]) => (
-          <div key={k} className="bg-black p-5 text-center max-[480px]:p-3">
-            <div className="text-[26px] font-light max-[480px]:text-lg">{v}</div>
+          <div key={k} className="bg-black p-5 text-center max-[768px]:p-3">
+            <div className="text-[26px] font-light max-[768px]:text-lg">{v}</div>
             <div className="mt-1 text-xs text-mut2">{k}</div>
           </div>
         ))}

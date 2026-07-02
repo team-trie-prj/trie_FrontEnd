@@ -63,7 +63,7 @@ export default function ReportPage() {
         }
         description="근거 데이터와 실무 양식을 선택해 초안을 생성하고, 화면에서 직접 수정한 뒤 파일로 내보냅니다."
       />
-      <div className="grid grid-cols-[minmax(220px,320px)_minmax(0,1fr)] items-start gap-5 max-[480px]:grid-cols-1">
+      <div className="grid grid-cols-[minmax(220px,320px)_minmax(0,1fr)] items-start gap-5 max-[768px]:grid-cols-1">
         <Card>
           <ReportControls
             sourceLabel={sourceLabel}
@@ -91,7 +91,7 @@ export default function ReportPage() {
           </p>
         </Card>
         <Card className="flex justify-center bg-panel2 p-[26px]">
-          <div className="min-h-[400px] w-full max-w-[560px] rounded-md bg-[#F4F4F0] px-[clamp(20px,3vw,46px)] py-10 shadow-[0_16px_50px_rgba(0,0,0,.6)] max-[480px]:py-6">
+          <div className="min-h-[400px] w-full max-w-[560px] rounded-md bg-[#F4F4F0] px-[clamp(20px,3vw,46px)] py-10 shadow-[0_16px_50px_rgba(0,0,0,.6)] max-[768px]:py-6">
             <ReportEditor />
           </div>
         </Card>
