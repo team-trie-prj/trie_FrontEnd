@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>지능형 정보 시스템 · 융합 데모</title>
+<style>
+@font-face{font-family:'Pretendard';font-weight:700;font-display:swap;src:url("/fonts/pretendard-700.woff2") format('woff2')}
+@font-face{font-family:'Pretendard';font-weight:600;font-display:swap;src:url("/fonts/pretendard-600.woff2") format('woff2')}
+@font-face{font-family:'Pretendard';font-weight:500;font-display:swap;src:url("/fonts/pretendard-500.woff2") format('woff2')}
+@font-face{font-family:'Pretendard';font-weight:400;font-display:swap;src:url("/fonts/pretendard-400.woff2") format('woff2')}
+@font-face{font-family:'Pretendard';font-weight:300;font-display:swap;src:url("/fonts/pretendard-300.woff2") format('woff2')}
+@font-face{font-family:'Material Symbols Outlined';font-style:normal;font-weight:400;font-display:swap;src:url("/fonts/material-symbols.woff2") format('woff2')}
+:root{
+  --bg:#000;--panel:#0A0A0A;--panel2:#060606;--line:#1A1A1A;--line2:#262626;--line3:#1C1C1C;
+  --ink:#F4F4F4;--mut:#8E8E8E;--mut2:#7E7E7E;--mut3:#6E6E6E;--mut4:#5E5E5E;--danger:#FF6B6B;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Pretendard',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;color:var(--ink);background:var(--bg);font-size:14px}
+.msym{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;line-height:1;display:inline-block;vertical-align:middle;-webkit-font-feature-settings:'liga';font-feature-settings:'liga' 1}
+::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#222;border-radius:8px;border:3px solid #000}::-webkit-scrollbar-track{background:#000}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;color:inherit;background:none}
+
+.app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
+/* ===== NAV ===== */
+nav.top{flex:0 0 auto;border-bottom:1px solid #151515;background:rgba(0,0,0,.72);backdrop-filter:blur(14px);z-index:30}
+.nav-inner{height:70px;display:flex;align-items:center;gap:18px;padding:0 30px}
+.brand{display:flex;align-items:center;gap:11px;flex:0 0 auto;cursor:pointer}
+.brand .logo{width:30px;height:30px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+.brand b{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.nav-menu{margin-left:18px;display:flex;align-items:center;gap:2px;flex:1}
+.nav-link{position:relative;background:transparent;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:var(--mut);padding:8px 14px;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;border-radius:8px;transition:color .15s}
+.nav-link:hover{color:var(--ink)}
+.nav-link.active{color:var(--ink)}
+.nav-link.active::after{content:"";position:absolute;left:14px;right:14px;bottom:-23px;height:2px;background:#fff}
+.nav-group{position:relative}
+.nav-group>.nav-link .chev{transition:transform .2s}
+.nav-group:hover>.nav-link{color:var(--ink)}
+.nav-group:hover>.nav-link .chev{transform:rotate(180deg)}
+.nav-drop{position:absolute;top:calc(100% + 10px);left:0;min-width:264px;background:#0C0C0C;border:1px solid #1E1E1E;border-radius:14px;padding:8px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:.18s;box-shadow:0 20px 50px rgba(0,0,0,.6);z-index:40}
+.nav-group:hover .nav-drop{opacity:1;visibility:visible;transform:translateY(0)}
+.nav-drop::before{content:"";position:absolute;top:-12px;left:0;right:0;height:12px}
+.drop-item{display:flex;align-items:flex-start;gap:12px;padding:11px 12px;border-radius:10px;cursor:pointer;transition:background .14s}
+.drop-item:hover{background:#161616}
+.drop-item .di-ic{width:34px;height:34px;flex:0 0 auto;border-radius:9px;border:1px solid #2A2A2A;display:flex;align-items:center;justify-content:center}
+.drop-item .di-ic .msym{font-size:18px}
+.drop-item .di-t{font-size:14px;font-weight:600}
+.drop-item .di-d{font-size:12px;color:var(--mut2);margin-top:2px;line-height:1.4}
+.nav-cta{flex:0 0 auto;display:flex;align-items:center;height:40px;padding:0 20px;border-radius:20px;background:#fff;color:#000;font-size:14px;font-weight:600;cursor:pointer}
+
+/* ===== MAIN ===== */
+main.scroll{flex:1;overflow-y:auto;background:#000;position:relative}
+.glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:1000px;height:460px;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(255,255,255,.07),rgba(255,255,255,0) 70%);pointer-events:none}
+.wrap{max-width:1180px;margin:0 auto;padding:48px 36px 70px;position:relative}
+
+/* ===== shared components ===== */
+.screen{display:none}.screen.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.hero{text-align:center;margin-bottom:40px;position:relative}
+.eyebrow{font-size:13px;letter-spacing:.16em;color:var(--mut3);margin-bottom:18px}
+.hero h1{font-size:44px;font-weight:300;letter-spacing:-.03em;line-height:1.1}
+.hero h1 b{font-weight:500}
+.hero p{margin:16px auto 0;max-width:520px;font-size:16px;color:var(--mut);line-height:1.65}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}
+.btn{font-family:inherit;cursor:pointer;border-radius:23px;height:46px;padding:0 22px;font-size:14px;font-weight:600;border:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
+.btn-white{background:#fff;color:#000}.btn-white:hover{background:#e9e9e9}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid rgba(255,255,255,.3)}.btn-ghost:hover{background:rgba(255,255,255,.06)}
+.btn-sm{height:40px;padding:0 16px;font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:#C8C8C8;border:1px solid var(--line2);border-radius:20px;padding:6px 13px;background:transparent;cursor:default}
+.chip{background:transparent;border:1px solid #232323;border-radius:20px;height:34px;padding:0 15px;font-family:inherit;font-size:13px;font-weight:500;color:#9A9A9A;cursor:pointer;transition:.15s}
+.chip:hover{border-color:#444;color:#fff}
+.input-bar{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line3);border-radius:30px;padding:7px 7px 7px 22px}
+.input-bar input{flex:1;border:none;background:transparent;outline:none;font-family:inherit;font-size:16px;color:var(--ink)}
+.label{font-size:11px;letter-spacing:.14em;color:var(--mut3)}
+.muted{color:var(--mut2)}
+.statband{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.statband .cell{background:#000;padding:24px}
+.statband .k{font-size:13px;color:var(--mut2);margin-bottom:10px}
+.statband .v{font-size:34px;font-weight:300;letter-spacing:-.02em}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid #333;border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hovcard{transition:border-color .15s}.hovcard:hover{border-color:#333}
+.spk{position:absolute;opacity:.5;pointer-events:none}
+.hovcard{transition:border-color .15s}.hovcard:hover{border-color:#333}
+.hidden{display:none!important}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:12px 20px;border-radius:24px;font-size:13px;font-weight:600;box-shadow:0 12px 40px rgba(0,0,0,.5);opacity:0;transition:.25s;z-index:100;pointer-events:none}
+.toast.show{opacity:1}
+
+/* ===== FOOTER ===== */
+footer.foot{border-top:1px solid #141414;background:#000;margin-top:40px}
+.foot-inner{max-width:1180px;margin:0 auto;padding:50px 36px 30px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr;gap:30px}
+.foot-brand .fb-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.foot-brand .logo{width:28px;height:28px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+.foot-brand b{font-size:14px;font-weight:600}
+.foot-brand p{font-size:13px;color:var(--mut2);line-height:1.7;max-width:280px}
+.foot-col h4{font-size:11px;letter-spacing:.12em;color:var(--mut3);margin-bottom:14px;font-weight:600;text-transform:uppercase}
+.foot-col a{display:block;font-size:13px;color:#A8A8A8;margin-bottom:10px;cursor:pointer;transition:color .14s}
+.foot-col a:hover{color:#fff}
+.foot-bottom{max-width:1180px;margin:0 auto;padding:18px 36px 34px;border-top:1px solid #141414;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.foot-bottom span{font-size:12px;color:var(--mut3)}
+.foot-bottom .badges{display:flex;gap:8px;flex-wrap:wrap}
+.foot-bottom .fb{font-size:11px;color:#9A9A9A;border:1px solid #1E1E1E;border-radius:20px;padding:5px 12px}
+@media(max-width:900px){.nav-menu{overflow-x:auto}.foot-inner{grid-template-columns:1fr 1fr}.wrap{padding:32px 20px 50px}.hero h1{font-size:34px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- ===== HEADER NAV (grouped hover dropdowns) ===== -->
+  <nav class="top">
+    <div class="nav-inner">
+      <div class="brand" onclick="App.go('main')">
+        <span class="logo"><svg width="15" height="15" viewBox="0 0 24 24"><path d="M12 1.5l2.6 6.9 6.9 2.6-6.9 2.6L12 22.5l-2.6-6.9L2.5 13l6.9-2.6z" fill="#000"/></svg></span>
+        <b>지능형 정보 시스템</b>
+      </div>
+      <div class="nav-menu" id="navMenu">
+        <button class="nav-link" data-nav="main" onclick="App.go('main')">메인</button>
+        <div class="nav-group">
+          <button class="nav-link" data-navgroup="analyze">분석 <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="nav-drop">
+            <div class="drop-item" onclick="App.go('query')"><span class="di-ic"><span class="msym">auto_awesome</span></span><div><div class="di-t">자연어 질의</div><div class="di-d">에이전트 추론·도구 호출</div></div></div>
+            <div class="drop-item" onclick="App.go('image')"><span class="di-ic"><span class="msym">center_focus_strong</span></span><div><div class="di-t">이미지 분석</div><div class="di-d">VLM·YOLO 탐지·라벨링</div></div></div>
+          </div>
+        </div>
+        <div class="nav-group">
+          <button class="nav-link" data-navgroup="data">데이터 <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="nav-drop">
+            <div class="drop-item" onclick="App.go('search')"><span class="di-ic"><span class="msym">search</span></span><div><div class="di-t">검색 결과</div><div class="di-d">하이브리드 검색·재정렬</div></div></div>
+            <div class="drop-item" onclick="App.go('public')"><span class="di-ic"><span class="msym">map</span></span><div><div class="di-t">공공데이터 연계</div><div class="di-d">지역 공간조인·통계</div></div></div>
+            <div class="drop-item" onclick="App.go('data')"><span class="di-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F4F4F4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3h6v3H9z"/><path d="M8.5 13l2 2 4-4"/></svg></span><div><div class="di-t">데이터 관리</div><div class="di-d">검수·변경 이력</div></div></div>
+          </div>
+        </div>
+        <div class="nav-group">
+          <button class="nav-link" data-navgroup="output">산출 <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="nav-drop">
+            <div class="drop-item" onclick="App.go('report')"><span class="di-ic"><span class="msym">description</span></span><div><div class="di-t">보고서 생성</div><div class="di-d">.docx 자동 작성</div></div></div>
+            <div class="drop-item" onclick="App.go('auto')"><span class="di-ic"><span class="msym">smart_toy</span></span><div><div class="di-t">업무 자동화</div><div class="di-d">에이전트 절차 추천</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-cta" onclick="App.go('query')">데모 요청</div>
+    </div>
+  </nav>
+
+  <!-- ===== CONTENT ===== -->
+  <main class="scroll">
+    <div class="glow"></div>
+    <div class="wrap" id="screens">
+<section class="screen active" data-screen="main">
+  <div class="hero">
+    <svg class="spk" style="top:8px;left:16%;" width="13" height="13" viewBox="0 0 24 24"><path d="M12 0l2.4 9.6L24 12l-9.6 2.4L12 24l-2.4-9.6L0 12l9.6-2.4z" fill="#fff"></path></svg>
+    <svg class="spk" style="top:80px;right:18%;opacity:.35;" width="10" height="10" viewBox="0 0 24 24"><path d="M12 0l2.4 9.6L24 12l-9.6 2.4L12 24l-2.4-9.6L0 12l9.6-2.4z" fill="#fff"></path></svg>
+    <svg class="spk" style="top:150px;left:24%;" width="15" height="15" viewBox="0 0 24 24"><path d="M12 0l2.4 9.6L24 12l-9.6 2.4L12 24l-2.4-9.6L0 12l9.6-2.4z" fill="#fff"></path></svg>
+    <div class="eyebrow" style="padding-top:30px;">GENSOFT · 대전 유성구 · 2026.06.24</div>
+    <h1 style="font-size:56px;line-height:1.06;letter-spacing:-.035em;">무엇을 <b>분석</b>할까요?</h1>
+    <p style="max-width:520px;font-size:16px;">이미지·문서·공공데이터를 자연어로 질의하면 에이전트가 도구를 호출해 분석합니다.</p>
+    <div class="input-bar" style="max-width:680px;margin:38px auto 0;border-radius:30px;padding:7px 7px 7px 22px;">
+      <span class="msym" style="font-size:21px;color:#F4F4F4;">auto_awesome</span>
+      <input id="main_q" placeholder="예) 대전 유성구 포트홀 영역을 찾아줘">
+      <button class="btn btn-white" onclick="App.mainGo()">질의</button>
+    </div>
+    <div style="display:flex;gap:9px;margin:16px 0 0;flex-wrap:wrap;justify-content:center;">
+      <button class="chip" onclick="App.go('image')">포트홀 찾기</button>
+      <button class="chip" onclick="App.go('public')">공공 통계</button>
+      <button class="chip" onclick="App.go('report')">요약·보고서</button>
+      <button class="chip" onclick="App.go('auto')">업무 절차 추천</button>
+    </div>
+    <div class="statband" style="margin-top:50px;text-align:left;">
+      <div class="cell"><div class="k">적재 문서</div><div class="v" id="main_docs">—</div></div>
+      <div class="cell"><div class="k">비전 탐지</div><div class="v" id="main_vision">—</div></div>
+      <div class="cell"><div class="k">공공 도메인</div><div class="v" id="main_domains">—</div></div>
+      <div class="cell"><div class="k">자동 확정률</div><div class="v" id="main_auto">—</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px;text-align:left;">
+      <button class="card hovcard" style="cursor:pointer;padding:20px;" onclick="App.go('image')"><div style="width:40px;height:40px;border-radius:50%;border:1px solid #2A2A2A;display:flex;align-items:center;justify-content:center;margin-bottom:13px;"><span class="msym" style="font-size:20px;color:#F4F4F4;">center_focus_strong</span></div><div style="font-size:14px;font-weight:600;">이미지 분석</div><div style="font-size:12px;color:#7E7E7E;margin-top:4px;">VLM + YOLO 탐지</div></button>
+      <button class="card hovcard" style="cursor:pointer;padding:20px;" onclick="App.go('public')"><div style="width:40px;height:40px;border-radius:50%;border:1px solid #2A2A2A;display:flex;align-items:center;justify-content:center;margin-bottom:13px;"><span class="msym" style="font-size:20px;color:#F4F4F4;">map</span></div><div style="font-size:14px;font-weight:600;">공공데이터 연계</div><div style="font-size:12px;color:#7E7E7E;margin-top:4px;">통계 공간조인</div></button>
+      <button class="card hovcard" style="cursor:pointer;padding:20px;" onclick="App.go('report')"><div style="width:40px;height:40px;border-radius:50%;border:1px solid #2A2A2A;display:flex;align-items:center;justify-content:center;margin-bottom:13px;"><span class="msym" style="font-size:20px;color:#F4F4F4;">description</span></div><div style="font-size:14px;font-weight:600;">보고서 생성</div><div style="font-size:12px;color:#7E7E7E;margin-top:4px;">.docx 자동 작성</div></button>
+      <button class="card hovcard" style="cursor:pointer;padding:20px;" onclick="App.go('auto')"><div style="width:40px;height:40px;border-radius:50%;border:1px solid #2A2A2A;display:flex;align-items:center;justify-content:center;margin-bottom:13px;"><span class="msym" style="font-size:20px;color:#F4F4F4;">smart_toy</span></div><div style="font-size:14px;font-weight:600;">업무 자동화</div><div style="font-size:12px;color:#7E7E7E;margin-top:4px;">절차 자동 추천</div></button>
+    </div>
+  </div>
+</section>
+<section class="screen" data-screen="query">
+  <div class="hero">
+    <div class="eyebrow">자연어 질의</div>
+    <h1>에이전트의 <b>생각</b>을 그대로</h1>
+    <p>의도를 분석하고 어떤 도구를 호출했는지 투명하게 보여줍니다.</p>
+  </div>
+  <div class="input-bar" style="max-width:760px;margin:0 auto 24px;">
+    <span class="msym" style="font-size:21px;color:#F4F4F4;">auto_awesome</span>
+    <input id="query_input" value="대전 유성구 포트홀 영역을 찾아줘" style="font-weight:500;">
+    <button class="btn btn-ghost btn-sm" style="border-radius:21px;" onclick="App.go('image')">이미지</button>
+    <button class="btn btn-white btn-sm" style="border-radius:21px;" onclick="App.runQuery()">질의</button>
+  </div>
+  <div style="display:grid;grid-template-columns:350px 1fr;gap:20px;align-items:start;">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:20px;"><span class="msym" style="font-size:20px;color:#F4F4F4;">smart_toy</span><span style="font-size:12px;font-weight:500;color:#9A9A9A;letter-spacing:.1em;">에이전트 추론 과정</span></div>
+      <div id="query_steps" style="display:flex;flex-direction:column;"></div>
+    </div>
+    <div>
+      <div class="card" style="padding:24px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:30px;height:30px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;"><span class="msym" style="font-size:17px;color:#000;">auto_awesome</span></div><span style="font-size:16px;font-weight:600;">AI 응답</span></div>
+          <span id="query_tag" class="pill">—</span>
+        </div>
+        <p id="query_answer" style="margin:0 0 16px;font-size:14px;line-height:1.8;color:#C8C8C8;"></p>
+        <div id="query_sources" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+        <div style="display:flex;gap:12px;margin-top:20px;">
+          <button class="btn btn-ghost" style="flex:1;" onclick="App.go('search')">검색 결과 보기</button>
+          <button class="btn btn-white" style="flex:1;" onclick="App.go('report')">보고서로 만들기</button>
+        </div>
+      </div>
+      <div class="input-bar" style="border-radius:30px;padding:8px 8px 8px 20px;">
+        <input id="query_follow" placeholder="후속 질문을 입력하세요…" style="font-size:14px;">
+        <button onclick="App.runFollow()" style="background:#fff;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;"><span class="msym" style="font-size:20px;color:#000;">arrow_upward</span></button>
+      </div>
+      <div id="query_followlog" style="margin-top:16px;display:flex;flex-direction:column;gap:12px;"></div>
+    </div>
+  </div>
+</section>
+<section class="screen" data-screen="image">
+  <div class="hero">
+    <div class="eyebrow">이미지 분석 · VLM / YOLO</div>
+    <h1>이미지로 <b>도로</b>를 읽다</h1>
+    <p>손상 유형·심각도·좌표를 구조화하고 통합 인덱스에 적재합니다.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:start;">
+    <div class="card">
+      <div class="label" style="margin-bottom:10px;">이미지 입력</div>
+      <div id="image_drop" style="border:1.5px dashed #2A2A2A;border-radius:14px;background:#060606;height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#6E6E6E;margin-bottom:6px;cursor:pointer;"><span class="msym" style="font-size:30px;color:#F4F4F4;">add_photo_alternate</span><span style="font-size:13px;">끌어다 놓기 / 업로드</span></div>
+      <input type="file" id="image_file" accept="image/*" style="display:none;">
+      <div style="text-align:center;margin-bottom:18px;"><span onclick="App.imgSample()" style="font-size:12px;color:#7E7E7E;cursor:pointer;text-decoration:underline;text-underline-offset:3px;">샘플 불러오기</span></div>
+      <div class="label" style="margin-bottom:8px;">질의</div>
+      <input id="image_q" type="text" value="포트홀 찾아줘" style="width:100%;background:#060606;border:1px solid #1C1C1C;border-radius:10px;padding:11px 14px;font-size:14px;color:#C8C8C8;font-family:inherit;outline:none;margin-bottom:18px;">
+      <div class="label" style="margin-bottom:9px;">모델</div>
+      <div id="image_model_toggle" style="display:flex;border:1px solid #262626;border-radius:21px;overflow:hidden;margin-bottom:18px;">
+        <div data-model="yolo" style="flex:1;text-align:center;padding:9px;font-size:13px;font-weight:600;background:#fff;color:#000;cursor:pointer;">YOLO</div>
+        <div data-model="gemini" style="flex:1;text-align:center;padding:9px;font-size:13px;font-weight:500;color:#7E7E7E;cursor:pointer;background:transparent;">Gemini</div>
+        <div data-model="mock" style="flex:1;text-align:center;padding:9px;font-size:13px;font-weight:500;color:#7E7E7E;cursor:pointer;background:transparent;">Mock</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;"><span style="font-size:11px;letter-spacing:.1em;color:#6E6E6E;">신뢰도 임계값</span><span id="image_confv" style="font-size:12px;font-weight:600;">0.25</span></div>
+      <input type="range" id="image_conf" min="0.05" max="0.9" step="0.05" value="0.25" style="width:100%;accent-color:#fff;margin:8px 0 20px;cursor:pointer;">
+      <button class="btn btn-white" style="width:100%;" onclick="App.detect()">탐지 실행</button>
+    </div>
+    <div class="card" style="padding:20px;">
+      <div class="canvas-wrap" id="image_canvaswrap" style="position:relative;border-radius:12px;overflow:hidden;margin-bottom:16px;display:none;"><img id="image_img" style="display:block;width:100%;"><canvas id="image_cv" style="position:absolute;inset:0;width:100%;height:100%;"></canvas></div>
+      <div id="image_empty" style="border:1.5px dashed #2A2A2A;border-radius:12px;background:#060606;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#6E6E6E;margin-bottom:16px;"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#3A3A3A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M21 15l-5-5-7 7"/></svg><span style="font-size:13px;">샘플을 불러오거나 이미지를 업로드한 뒤 탐지를 실행하세요</span></div>
+      <div id="image_result" style="display:none;">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1A1A1A;border:1px solid #1A1A1A;border-radius:14px;overflow:hidden;margin-bottom:16px;">
+          <div style="background:#0A0A0A;padding:18px;text-align:center;"><div id="image_count" style="font-size:26px;font-weight:300;">—</div><div style="font-size:12px;color:#7E7E7E;margin-top:3px;">탐지</div></div>
+          <div style="background:#0A0A0A;padding:18px;text-align:center;"><div id="image_severe" style="font-size:26px;font-weight:300;color:#FF6B6B;">—</div><div style="font-size:12px;color:#7E7E7E;margin-top:3px;">심각</div></div>
+          <div style="background:#0A0A0A;padding:18px;text-align:center;"><div id="image_avg" style="font-size:26px;font-weight:300;">—</div><div style="font-size:12px;color:#7E7E7E;margin-top:3px;">평균 신뢰도</div></div>
+        </div>
+        <div class="label" style="margin-bottom:8px;">심각도 분포</div>
+        <div style="display:flex;height:10px;border-radius:5px;overflow:hidden;margin-bottom:18px;"><div id="image_dsev" style="background:#fff;width:0%;"></div><div id="image_dmod" style="background:#777;width:0%;"></div><div id="image_dmin" style="background:#333;width:0%;"></div></div>
+        <div style="display:flex;gap:12px;"><button class="btn btn-ghost" style="flex:1;height:44px;" onclick="App.exportCoco()">COCO / YOLO 내보내기</button><button class="btn btn-white" style="flex:1;height:44px;" onclick="App.ingest()">통합 인덱스에 적재</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="screen" data-screen="search">
+  <div class="hero">
+    <div class="eyebrow">검색 결과 · 하이브리드</div>
+    <h1>의미와 키워드를 <b>함께</b></h1>
+    <p>임베딩 + BM25 검색 후 재정렬 점수 순으로 정렬됩니다.</p>
+  </div>
+  <div class="input-bar" style="max-width:760px;margin:0 auto 18px;padding:12px 22px;">
+    <span class="msym" style="font-size:20px;color:#7E7E7E;">search</span>
+    <input id="search_input" value="대전 유성구 포트홀 영역을 찾아줘" style="font-weight:500;">
+    <button class="btn btn-white btn-sm" style="border-radius:21px;" onclick="App.runSearch()">검색</button>
+  </div>
+  <div style="max-width:760px;margin:0 auto 16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;" id="search_filters">
+    <button class="chip" data-f="all" style="border-color:#444;color:#fff;">전체</button>
+    <button class="chip" data-f="vision">사내 비전</button>
+    <button class="chip" data-f="public">공공데이터</button>
+  </div>
+  <div id="search_meta" style="text-align:center;font-size:12px;color:#6E6E6E;margin-bottom:18px;"></div>
+  <div id="search_list" style="max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:13px;"></div>
+</section>
+<section class="screen" data-screen="public">
+  <div class="hero">
+    <div class="eyebrow">공공데이터 연계 · 공간조인</div>
+    <h1>지역으로 <b>잇다</b></h1>
+    <p>비전 탐지 결과를 시도/자치구 단위로 공공데이터와 공간조인해 분석합니다.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:20px;align-items:start;">
+    <div class="card" style="padding:20px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <span style="display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600;"><span class="msym" style="font-size:18px;">location_on</span><span id="public_maplabel">대전 유성구</span></span>
+        <select id="public_region" style="background:#0A0A0A;color:#C8C8C8;border:1px solid #262626;border-radius:8px;padding:6px 10px;font-family:inherit;font-size:12px;cursor:pointer;outline:none;width:auto;" onchange="App.loadGeo(this.value)">
+          <option value="유성구">유성구</option><option value="서구">서구</option><option value="중구">중구</option><option value="동구">동구</option><option value="대덕구">대덕구</option>
+        </select>
+      </div>
+      <div style="position:relative;height:300px;border-radius:13px;background:#060606;border:1px solid #1A1A1A;overflow:hidden;">
+        <svg id="public_map" viewBox="0 0 400 300" style="position:absolute;inset:0;width:100%;height:100%;">
+          <path d="M70 60 L180 40 L300 90 L330 200 L230 260 L110 240 L50 150 Z" fill="#141414" stroke="#262626" stroke-width="2"/>
+          <path d="M180 40 L300 90 L260 160 L160 130 Z" fill="#1A1A1A" stroke="#262626" stroke-width="1.5"/>
+          <g id="public_map_points"></g>
+        </svg>
+      </div>
+      <div style="display:flex;gap:18px;margin-top:14px;font-size:12px;color:#8E8E8E;"><span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#fff;display:inline-block;"></span>비전 탐지(포트홀)</span><span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:3px;background:#777;display:inline-block;"></span>공공데이터 지점</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="card" style="padding:20px;">
+        <div class="label" style="margin-bottom:14px;">선택 지역 · <span id="public_regname">유성구</span></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+          <div style="text-align:center;"><div style="font-size:26px;font-weight:300;" id="public_pothole">—</div><div style="font-size:11px;color:#7E7E7E;margin-top:2px;">포트홀</div></div>
+          <div style="text-align:center;"><div style="font-size:26px;font-weight:300;" id="public_road">—</div><div style="font-size:11px;color:#7E7E7E;margin-top:2px;">도로연장(km)</div></div>
+          <div style="text-align:center;"><div style="font-size:26px;font-weight:300;" id="public_air">—</div><div style="font-size:11px;color:#7E7E7E;margin-top:2px;">미세먼지</div></div>
+        </div>
+      </div>
+      <div class="card" style="padding:20px;">
+        <div class="label" style="margin-bottom:14px;">지역 랭킹 · 포트홀</div>
+        <div id="public_rank" style="display:flex;flex-direction:column;gap:12px;"></div>
+      </div>
+      <button class="btn btn-white" style="height:48px;" onclick="App.go('report')">지역 보고서 생성</button>
+    </div>
+  </div>
+</section>
+<section class="screen" data-screen="report">
+  <div class="hero">
+    <div class="eyebrow">보고서 생성 · .docx</div>
+    <h1>요약을 <b>문서</b>로</h1>
+    <p>질의·검색 결과를 섹션별로 요약해 .docx 보고서로 자동 작성합니다.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:start;">
+    <div class="card">
+      <div class="label" style="margin-bottom:8px;">대상 질의</div>
+      <input id="report_q" type="text" value="대전 노면상태별 교통사고를 요약해서 보고서로 만들어줘" style="width:100%;background:#060606;border:1px solid #1C1C1C;border-radius:10px;padding:11px 14px;font-size:13px;color:#C8C8C8;font-family:inherit;outline:none;margin-bottom:18px;">
+      <div class="label" style="margin-bottom:12px;">포함 섹션</div>
+      <div id="report_secs" style="display:flex;flex-direction:column;gap:13px;margin-bottom:20px;">
+        <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:500;cursor:pointer;"><input type="checkbox" checked style="accent-color:#fff;width:17px;height:17px;">개요</label>
+        <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:500;cursor:pointer;"><input type="checkbox" checked style="accent-color:#fff;width:17px;height:17px;">탐지 현황</label>
+        <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:500;cursor:pointer;"><input type="checkbox" checked style="accent-color:#fff;width:17px;height:17px;">공공데이터 연계</label>
+        <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:500;cursor:pointer;"><input type="checkbox" checked style="accent-color:#fff;width:17px;height:17px;">통계·그래프</label>
+        <label style="display:flex;align-items:center;gap:11px;font-size:14px;font-weight:500;color:#9A9A9A;cursor:pointer;"><input type="checkbox" style="accent-color:#fff;width:17px;height:17px;">결론·제언</label>
+      </div>
+      <button class="btn btn-white" style="width:100%;margin-bottom:10px;" onclick="App.makeReport()">.docx 생성</button>
+      <button class="btn btn-ghost" style="width:100%;height:44px;" onclick="App.previewReport()">미리보기 새로고침</button>
+      <div id="report_status" style="font-size:12px;color:#8E8E8E;margin-top:12px;text-align:center;min-height:16px;"></div>
+    </div>
+    <div class="card" style="background:#060606;padding:26px;display:flex;justify-content:center;">
+      <div id="report_preview" style="width:100%;max-width:560px;background:#F4F4F0;border-radius:6px;box-shadow:0 16px 50px rgba(0,0,0,.6);padding:40px 46px;color:#1A1A18;min-height:400px;"></div>
+    </div>
+  </div>
+</section>
+<section class="screen" data-screen="data">
+  <div class="hero">
+    <div class="eyebrow">데이터 관리 · 검수</div>
+    <h1>검수하고 <b>확정</b>하다</h1>
+    <p>자동 라벨을 검수·확정하고 변경 이력을 관리합니다. 신뢰도 임계 미만은 검수 대상으로 분류됩니다.</p>
+  </div>
+  <div style="max-width:960px;margin:0 auto;">
+    <div class="statband" style="margin-bottom:18px;">
+      <div class="cell"><div class="k">자동 확정</div><div class="v" id="data_approved" style="font-size:34px;">—</div></div>
+      <div class="cell"><div class="k">검수 대상</div><div class="v" id="data_pending" style="font-size:34px;">—</div></div>
+      <div class="cell"><div class="k">반려</div><div class="v" id="data_rejected" style="font-size:34px;color:#FF6B6B;">—</div></div>
+      <div class="cell"><div class="k">자동 확정률</div><div class="v" id="data_rate" style="font-size:34px;">—</div></div>
+    </div>
+    <div class="chips" id="data_tabs" style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+      <button class="chip" data-t="all" style="border-color:#444;color:#fff;">전체</button>
+      <button class="chip" data-t="도로시설">라벨/비전</button>
+      <button class="chip" data-t="교통안전">교통안전</button>
+      <button class="chip" data-t="재난안전">재난안전</button>
+      <button class="chip" data-t="prompt">프롬프트·응답</button>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;margin-bottom:18px;">
+      <div id="data_table"><div style="padding:20px;color:#6E6E6E;font-size:13px;">불러오는 중…</div></div>
+    </div>
+    <div class="card" style="padding:20px;">
+      <div class="label" style="margin-bottom:14px;">변경 이력 <span class="muted" style="font-family:ui-monospace,monospace;">doc_change_log</span></div>
+      <div id="data_changelog"></div>
+    </div>
+  </div>
+</section>
+<section class="screen" data-screen="auto">
+  <div class="hero">
+    <svg class="spk" style="top:0;left:30%;" width="12" height="12" viewBox="0 0 24 24"><path d="M12 0l2.4 9.6L24 12l-9.6 2.4L12 24l-2.4-9.6L0 12l9.6-2.4z" fill="#fff"></path></svg>
+    <div class="eyebrow">업무 자동화 · 에이전트</div>
+    <h1>절차를 <b>엮다</b></h1>
+    <p>에이전트가 탐지·통계·보고서 도구를 순서대로 엮어 업무 절차를 자동 추천하고 실행합니다.</p>
+  </div>
+  <div style="max-width:900px;margin:0 auto;">
+    <div class="input-bar" style="border-radius:30px;padding:8px 8px 8px 22px;margin-bottom:22px;">
+      <span class="msym" style="font-size:21px;color:#F4F4F4;">smart_toy</span>
+      <input id="auto_q" value="유성구 포트홀 대응 업무 절차를 추천해줘" style="font-weight:500;">
+      <button class="btn btn-white btn-sm" style="border-radius:23px;height:44px;" onclick="App.runAuto()">절차 추천</button>
+    </div>
+    <div style="border:1px solid #1A1A1A;border-radius:20px;background:#080808;padding:30px 26px;margin-bottom:18px;">
+      <div class="label" style="margin-bottom:28px;">추천 업무 절차 · <span id="auto_title">—</span></div>
+      <div id="auto_steps" style="position:relative;"></div>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <button class="btn btn-white" style="flex:1;height:52px;font-size:16px;" onclick="App.execProc()">절차 자동 실행</button>
+      <button class="btn btn-ghost" style="flex:0 0 200px;height:52px;" onclick="App.go('data')">절차 수정</button>
+    </div>
+    <div id="auto_exec" style="font-size:13px;color:#8E8E8E;margin-top:14px;text-align:center;min-height:18px;"></div>
+  </div>
+</section>
+    </div>
+    <!-- ===== FOOTER ===== -->
+    <footer class="foot">
+      <div class="foot-inner">
+        <div class="foot-brand">
+          <div class="fb-top"><span class="logo"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 1.5l2.6 6.9 6.9 2.6-6.9 2.6L12 22.5l-2.6-6.9L2.5 13l6.9-2.6z" fill="#000"/></svg></span><b>지능형 정보 시스템</b></div>
+          <p>VLM 비전 · 하이브리드 RAG · AI 에이전트를 하나로 통합한 생성형 AI 기반 지능형 정보 시스템. 자연어로 질의하면 도구를 호출해 분석·요약·보고서·업무자동화를 수행합니다.</p>
+        </div>
+        <div class="foot-col"><h4>분석</h4><a onclick="App.go('query')">자연어 질의</a><a onclick="App.go('image')">이미지 분석</a></div>
+        <div class="foot-col"><h4>데이터</h4><a onclick="App.go('search')">검색 결과</a><a onclick="App.go('public')">공공데이터 연계</a><a onclick="App.go('data')">데이터 관리</a></div>
+        <div class="foot-col"><h4>산출</h4><a onclick="App.go('report')">보고서 생성</a><a onclick="App.go('auto')">업무 자동화</a></div>
+        <div class="foot-col"><h4>시스템</h4><a onclick="App.go('main')">메인 대시보드</a><a href="https://www.data.go.kr" target="_blank">공공데이터포털 ↗</a><a id="footStatus">오프라인 모드</a></div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 GENSOFT · 지능형 정보 시스템 · 대전 유성구</span>
+        <div class="badges"><span class="fb">VLM</span><span class="fb">Hybrid RAG</span><span class="fb">AI Agent</span><span class="fb">공공데이터</span></div>
+      </div>
+    </footer>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2300);}
+async function jget(u){return (await fetch(u)).json();}
+async function jpost(u,b){return (await fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b||{})})).json();}
+const NAVGROUP={main:'main',query:'analyze',image:'analyze',search:'data',public:'data',data:'data',report:'output',auto:'output'};
+const App={
+  _rendered:{},
+  go(name){
+    $$('.screen').forEach(s=>s.classList.toggle('active',s.dataset.screen===name));
+    $$('.nav-link[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===name));
+    $$('.nav-link[data-navgroup]').forEach(a=>a.classList.toggle('active',a.dataset.navgroup===NAVGROUP[name]));
+    const fn=App['render_'+name];
+    if(fn) fn();
+    $('main.scroll').scrollTo(0,0);
+    location.hash=name;
+  },
+  async boot(){
+    try{const o=await jget('/api/overview');App.overview=o;
+      $('#footStatus').textContent=(o.provider==='gemini'?'Gemini 라우터':'오프라인 모드')+' · 비전 '+(o.vision_backend&&o.vision_backend.vlm_package?'실제':'폴백');
+    }catch(e){}
+    const start=(location.hash||'#main').slice(1);
+    App.go(App['render_'+start]?start:'main');
+  },
+};
+/* ===== MAIN ===== */
+App.render_main=function(){
+  const o=App.overview||{};
+  const set=(id,v)=>{const e=$('#'+id);if(e)e.textContent=v;};
+  set('main_docs',(o.docs??263));set('main_vision',(o.vision??28));set('main_domains',(o.domains??7));set('main_auto',(o.auto_rate??82)+'%');
+  const q=$('#main_q'); if(q&&!q._wired){q._wired=1;q.addEventListener('keydown',e=>{if(e.key==='Enter')App.mainGo();});}
+};
+App.mainGo=function(){const q=$('#main_q');App._carry=q?q.value:'';App.go('query');if(App._carry){const qi=$('#query_input');if(qi)qi.value=App._carry;App.runQuery();}};
+
+/* ===== QUERY ===== */
+App._stepBadge=function(step,idx){if(step.kind==='intent')return String(idx+1);const t=(step.tool||step.label||'').toLowerCase();if(t.includes('vlm')||t.includes('yolo')||t.includes('vision')||t.includes('비전'))return'VL';if(t.includes('rag')||t.includes('hybrid')||t.includes('검색'))return'RA';if(t.includes('공공')||t.includes('aggregate')||t.includes('통계'))return'PD';return(step.label||'TO').slice(0,2).toUpperCase();};
+App._stepHTML=function(step,idx,isLast){const badge=App._stepBadge(step,idx);const fsize=step.kind==='intent'?'11px':'10px';const connector=isLast?'':'<div style="width:1px;flex:1;background:#222;margin:4px 0;"></div>';return`<div style="display:flex;gap:14px;"><div style="display:flex;flex-direction:column;align-items:center;"><div style="width:26px;height:26px;border-radius:50%;border:1px solid #333;color:#F4F4F4;font-size:${fsize};font-weight:600;display:flex;align-items:center;justify-content:center;">${badge}</div>${connector}</div><div style="padding-bottom:${isLast?'0':'20px'};"><div style="font-size:14px;font-weight:600;">${step.label||''}</div><div style="font-size:12px;color:#7E7E7E;margin-top:3px;line-height:1.5;">${step.text||''}</div></div></div>`;};
+App.runQuery=async function(){const inp=$('#query_input');const question=(inp?inp.value:'').trim();if(!question)return;const stepsEl=$('#query_steps');if(stepsEl)stepsEl.innerHTML='<div style="color:#6E6E6E;font-size:13px;padding:8px 0;">분석 중<span class="spinner" style="margin-left:8px;"></span></div>';const aEl=$('#query_answer');if(aEl)aEl.textContent='';try{const d=await jpost('/api/ask',{question});const ts=(d.steps||[]).filter(s=>s.kind!=='answer');if(stepsEl)stepsEl.innerHTML=ts.map((s,i)=>App._stepHTML(s,i,i===ts.length-1)).join('');if(aEl)aEl.textContent=d.answer||'';const tag=$('#query_tag');if(tag)tag.textContent=[d.domain,d.region].filter(Boolean).join(' · ')||'—';const src=$('#query_sources');if(src){const pills=[];if(d.vision&&d.vision.count)pills.push('비전 탐지 '+d.vision.count+'건');(d.sources||[]).slice(0,3).forEach(u=>pills.push('data.go.kr'));if(d.stats&&d.stats.length)pills.push((d.metric_label||'통계')+' '+d.stats.length+'건');src.innerHTML=pills.map(s=>'<span class="pill">'+s+'</span>').join('');}}catch(e){if(stepsEl)stepsEl.innerHTML='<div style="color:#FF6B6B;font-size:13px;">오류가 발생했습니다.</div>';}};
+App.runFollow=async function(){const f=$('#query_follow');const question=(f?f.value:'').trim();if(!question)return;f.value='';const log=$('#query_followlog');const u=document.createElement('div');u.className='pill';u.style.cssText='align-self:flex-end;background:#fff;color:#000;border:none;';u.textContent=question;log.appendChild(u);const a=document.createElement('div');a.style.cssText='background:#0A0A0A;border:1px solid #1A1A1A;border-radius:14px;padding:14px 18px;font-size:14px;color:#6E6E6E;';a.textContent='응답 중…';log.appendChild(a);try{const d=await jpost('/api/ask',{question});a.style.color='#C8C8C8';a.textContent=d.answer||'';}catch(e){a.style.color='#FF6B6B';a.textContent='오류가 발생했습니다.';}};
+App.render_query=function(){if(!App._queryWired){App._queryWired=1;const inp=$('#query_input');if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')App.runQuery();});const f=$('#query_follow');if(f)f.addEventListener('keydown',e=>{if(e.key==='Enter')App.runFollow();});}if(!App._queryAsked){App._queryAsked=1;App.runQuery();}};
+
+/* ===== IMAGE ===== */
+App._imgModel='yolo';App._imgSample=null;App._imgB64=null;App._imgDets=[];App._imgW=0;App._imgH=0;App._imgWired=false;
+App.imgSample=async function(){try{const data=await jget('/api/samples');const list=data.samples||[];if(!list.length){toast('샘플 없음');return;}const name=list[Math.floor(Math.random()*list.length)];App._imgSample=name;App._imgB64=null;const img=$('#image_img');img.src='/samples/'+encodeURIComponent(name);$('#image_canvaswrap').style.display='block';const cv=$('#image_cv');cv.getContext('2d').clearRect(0,0,cv.width,cv.height);$('#image_empty').style.display='none';toast('샘플 로드: '+name);}catch(e){toast('샘플 로드 실패');}};
+App.detect=async function(){if(!App._imgSample&&!App._imgB64){toast('이미지를 먼저 불러오세요');return;}const body={query:$('#image_q').value||'포트홀 찾아줘',detector:App._imgModel,conf:parseFloat($('#image_conf').value)};if(App._imgB64)body.image_b64=App._imgB64;else body.sample=App._imgSample;try{toast('탐지 중…');const data=await jpost('/api/detect',body);const dets=data.detections||[],stats=data.stats||{},dist=data.severity_dist||{};App._imgDets=dets;App._imgW=data.width||640;App._imgH=data.height||480;$('#image_count').textContent=stats.count??dets.length;$('#image_severe').textContent=stats.severe??0;$('#image_avg').textContent=stats.avg_conf!=null?Math.round(stats.avg_conf*100)+'%':'—';const total=(dist.severe||0)+(dist.moderate||0)+(dist.minor||0)||1;$('#image_dsev').style.width=((dist.severe||0)/total*100).toFixed(1)+'%';$('#image_dmod').style.width=((dist.moderate||0)/total*100).toFixed(1)+'%';$('#image_dmin').style.width=((dist.minor||0)/total*100).toFixed(1)+'%';const cv=$('#image_cv');cv.width=App._imgW;cv.height=App._imgH;const ctx=cv.getContext('2d');ctx.clearRect(0,0,cv.width,cv.height);const lw=Math.max(2,App._imgW/240);dets.forEach(d=>{const[x0,y0,x1,y1]=d.box;ctx.strokeStyle='#fff';ctx.lineWidth=lw;ctx.strokeRect(x0,y0,x1-x0,y1-y0);const label=`${d.label} ${d.confidence.toFixed(2)}`;ctx.font=`bold ${Math.max(11,lw*5)}px Pretendard,sans-serif`;const tw=ctx.measureText(label).width,ph=Math.max(15,lw*7);ctx.fillStyle='#fff';ctx.fillRect(x0,Math.max(0,y0-ph-6),tw+12,ph+6);ctx.fillStyle='#000';ctx.fillText(label,x0+6,Math.max(11,y0-8));});$('#image_canvaswrap').style.display='block';$('#image_empty').style.display='none';$('#image_result').style.display='block';toast('탐지 완료 · '+dets.length+'건');}catch(e){toast('탐지 실패');}};
+App.exportCoco=function(){const images=[{id:1,file_name:App._imgSample||'image.jpg',width:App._imgW,height:App._imgH}];const annotations=App._imgDets.map((d,i)=>{const[x0,y0,x1,y1]=d.box;return{id:i+1,image_id:1,category_id:1,bbox:[x0,y0,x1-x0,y1-y0],score:d.confidence,severity:d.severity};});const blob=new Blob([JSON.stringify({images,annotations,categories:[{id:1,name:'road_damage'}]},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='annotations_coco.json';a.click();toast('COCO/YOLO 내보내기 완료');};
+App.ingest=function(){toast('비전 탐지 '+App._imgDets.length+'건 통합 인덱스 적재');};
+App._readImg=function(file){const r=new FileReader();r.onload=ev=>{App._imgB64=ev.target.result;App._imgSample=null;$('#image_img').src=App._imgB64;$('#image_canvaswrap').style.display='block';const cv=$('#image_cv');cv.getContext('2d').clearRect(0,0,cv.width,cv.height);$('#image_empty').style.display='none';toast('이미지 로드 완료');};r.readAsDataURL(file);};
+App.render_image=function(){if(App._imgWired)return;App._imgWired=true;$('#image_drop').addEventListener('click',()=>$('#image_file').click());$('#image_drop').addEventListener('dragover',e=>{e.preventDefault();$('#image_drop').style.borderColor='#555';});$('#image_drop').addEventListener('dragleave',()=>$('#image_drop').style.borderColor='#2A2A2A');$('#image_drop').addEventListener('drop',e=>{e.preventDefault();$('#image_drop').style.borderColor='#2A2A2A';if(e.dataTransfer.files[0])App._readImg(e.dataTransfer.files[0]);});$('#image_file').addEventListener('change',e=>{if(e.target.files[0])App._readImg(e.target.files[0]);});$$('#image_model_toggle [data-model]').forEach(seg=>seg.addEventListener('click',()=>{App._imgModel=seg.dataset.model;$$('#image_model_toggle [data-model]').forEach(s=>{const a=s.dataset.model===App._imgModel;s.style.background=a?'#fff':'transparent';s.style.color=a?'#000':'#7E7E7E';s.style.fontWeight=a?'600':'500';});}));$('#image_conf').addEventListener('input',e=>$('#image_confv').textContent=parseFloat(e.target.value).toFixed(2));};
+
+/* ===== PUBLIC ===== */
+App.loadGeo=async function(region){try{const data=await jget('/api/geo?region='+encodeURIComponent(region));App._geo=data;const{selected,city_air,ranking,points,bounds}=data;const rn=selected?selected.name:region;if($('#public_regname'))$('#public_regname').textContent=rn;if($('#public_maplabel'))$('#public_maplabel').textContent='대전 '+rn;if($('#public_pothole'))$('#public_pothole').textContent=selected?selected.pothole:'—';if($('#public_road'))$('#public_road').textContent=selected?selected.road_km:'—';if($('#public_air'))$('#public_air').textContent=city_air?city_air.label:'—';const rankEl=$('#public_rank');if(rankEl&&ranking){const colors=['#fff','#999','#666','#444','#333'];const mx=Math.max(...ranking.map(r=>(r.pothole||0)+(r.crack||0)),1);rankEl.innerHTML=ranking.map((r,i)=>{const v=(r.pothole||0)+(r.crack||0);return`<div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;"><span>${r.name}</span><span style="color:#6E6E6E;">${v}</span></div><div style="height:6px;background:#1A1A1A;border-radius:3px;"><div style="width:${Math.round(v/mx*100)}%;height:6px;background:${colors[Math.min(i,4)]};border-radius:3px;"></div></div></div>`;}).join('');}const g=$('#public_map_points');if(g&&points&&bounds){const{minLat,maxLat,minLng,maxLng}=bounds,PAD=30,W=340,H=240,lr=(maxLat-minLat)||1,gr=(maxLng-minLng)||1;g.innerHTML=points.map(p=>{const x=PAD+(p.lng-minLng)/gr*W,y=300-PAD-(p.lat-minLat)/lr*H;if(p.cls==='pothole'||p.cls==='crack')return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6" fill="#fff" stroke="#000" stroke-width="2"/>`;return`<rect x="${(x-5.5).toFixed(1)}" y="${(y-5.5).toFixed(1)}" width="11" height="11" rx="3" fill="#777" stroke="#000" stroke-width="2"/>`;}).join('');}}catch(e){}};
+App.render_public=function(){const sel=$('#public_region');const region=(sel&&sel.value)?sel.value:'유성구';App.loadGeo(region);};
+
+/* ===== SEARCH ===== */
+App._searchFilter='all';
+App.runSearch=async function(){const inp=$('#search_input');const q=(inp?inp.value:'').trim();if(!q)return;const list=$('#search_list');list.innerHTML='<div style="text-align:center;color:#6E6E6E;font-size:13px;padding:20px;">검색 중<span class="spinner" style="margin-left:8px;"></span></div>';try{const d=await jpost('/api/ask',{question:q});App._hits=d.hits||[];$('#search_meta').textContent=`${d.domain||'전체'} · ${d.region||'전국'} · ${App._hits.length}건 (의미+키워드 RRF 융합·재정렬)`;App.paintHits();}catch(e){list.innerHTML='<div style="text-align:center;color:#FF6B6B;">오류</div>';}};
+App.paintHits=function(){const f=App._searchFilter;const hits=(App._hits||[]).filter(h=>f==='all'||(f==='vision'&&h.source==='gnsoft_vision')||(f==='public'&&h.source!=='gnsoft_vision'));const list=$('#search_list');if(!hits.length){list.innerHTML='<div style="text-align:center;color:#6E6E6E;padding:20px;">결과 없음</div>';return;}list.innerHTML=hits.map(h=>{const isV=h.source==='gnsoft_vision';const cat=(isV?'사내 비전':'공공데이터')+' · '+(h.domain||h.doc_type||'');const url=h.provenance&&h.provenance.url||'';const ds=h.provenance&&h.provenance.dataset_id||'';const sub=isV?(h.text||'').slice(0,46):('↗ data.go.kr / '+ds);const ic=isV?'<div style="flex:0 0 60px;height:60px;border-radius:11px;background:linear-gradient(160deg,#3A3F44,#16191C);position:relative;overflow:hidden;"><div style="position:absolute;left:25%;top:42%;width:46%;height:36%;border:1.5px solid #fff;border-radius:3px;"></div></div>':'<div style="flex:0 0 60px;height:60px;border-radius:11px;border:1px solid #262626;display:flex;align-items:center;justify-content:center;"><span class="msym" style="font-size:26px;color:#F4F4F4;">'+(h.domain==='교통안전'?'bar_chart':'dataset')+'</span></div>';return`<div class="card hovcard" style="padding:18px;display:flex;gap:16px;align-items:center;">${ic}<div style="flex:1;min-width:0;"><div style="font-size:11px;letter-spacing:.1em;color:#6E6E6E;margin-bottom:5px;">${cat}</div><div style="font-size:16px;font-weight:600;">${h.title}</div><div style="font-size:13px;color:#7E7E7E;margin-top:3px;">${sub}</div></div><div style="text-align:center;flex:0 0 auto;"><div style="font-size:20px;font-weight:300;">${h._score!=null?h._score:'-'}</div><div style="font-size:11px;color:#5E5E5E;letter-spacing:.1em;">재정렬</div></div></div>`;}).join('');};
+App.render_search=function(){if(!App._searchWired){App._searchWired=1;const inp=$('#search_input');if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')App.runSearch();});$('#search_filters').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;App._searchFilter=c.dataset.f;$$('#search_filters .chip').forEach(x=>{x.style.borderColor='#232323';x.style.color='#9A9A9A';});c.style.borderColor='#444';c.style.color='#fff';App.paintHits();});}if($('#search_input').value)App.runSearch();};
+
+/* ===== REPORT ===== */
+App.previewReport=async function(){const q=($('#report_q')?$('#report_q').value:'').trim();if(!q)return;const secs=[...$$('#report_secs input')].map(c=>c.checked);const pv=$('#report_preview');pv.innerHTML='<div style="color:#6B6B64;font-size:13px;">미리보기 생성 중…</div>';try{const d=await jpost('/api/ask',{question:q});let h='<div style="text-align:center;border-bottom:2px solid #1A1A18;padding-bottom:16px;margin-bottom:22px;"><div style="font-size:20px;font-weight:700;letter-spacing:-.01em;">'+(d.region||'대전')+' '+(d.domain||'도로')+' 분석 보고서</div><div style="font-size:12px;color:#6B6B64;margin-top:6px;">'+(d.region||'대전광역시')+' · 2026년 6월 · 지능형 정보 시스템</div></div>';let n=1;if(secs[0])h+='<div style="font-size:14px;font-weight:700;margin-bottom:8px;">'+(n++)+'. 개요</div><div style="font-size:13px;line-height:1.85;color:#3C3C38;margin-bottom:20px;">'+(d.answer||'')+'</div>';if(secs[1]&&d.vision)h+='<div style="font-size:14px;font-weight:700;margin-bottom:8px;">'+(n++)+'. 탐지 현황</div><div style="font-size:13px;line-height:1.85;color:#3C3C38;margin-bottom:14px;">비전 탐지 '+d.vision.count+'건(심각 '+d.vision.severe+') · 평균 신뢰도 '+Math.round(d.vision.avg_conf*100)+'%</div>';if(secs[3]&&d.stats&&d.stats.length){const mx=Math.max(...d.stats.map(s=>s.value||0))||1;h+='<div style="font-size:14px;font-weight:700;margin-bottom:12px;">'+(n++)+'. 통계·그래프 — '+(d.metric_label||'')+'</div><div style="display:flex;align-items:flex-end;gap:8px;height:90px;padding:0 6px;border-bottom:1.5px solid #C9C9C2;margin-bottom:6px;">'+d.stats.slice(0,4).map((s,i)=>'<div style="flex:1;height:'+Math.max(8,(s.value||0)/mx*82)+'%;background:'+['#1A1A18','#55554E','#8A8A82','#B6B6AE'][i]+';border-radius:4px 4px 0 0;"></div>').join('')+'</div><div style="display:flex;justify-content:space-between;font-size:11px;color:#6B6B64;margin-bottom:22px;">'+d.stats.slice(0,4).map(s=>'<span>'+s.label+'</span>').join('')+'</div>';}if(secs[2])h+='<div style="font-size:14px;font-weight:700;margin-bottom:8px;">'+(n++)+'. 공공데이터 연계</div><div style="font-size:12px;line-height:1.9;color:#3C3C38;margin-bottom:20px;">'+(d.hits||[]).slice(0,4).map(x=>'• '+x.title+' <span style="color:#6B6B64;">('+(x.provenance&&x.provenance.dataset_id||'-')+')</span>').join('<br>')+'</div>';if(secs[4])h+='<div style="font-size:14px;font-weight:700;margin-bottom:8px;">'+(n++)+'. 결론·제언</div><div style="font-size:13px;line-height:1.85;color:#3C3C38;">사내 비전 데이터와 공공데이터를 연계해 우선 보수 구간을 선정하고 의사결정 근거로 활용할 수 있다.</div>';pv.innerHTML=h;}catch(e){pv.innerHTML='<div style="color:#B00020;font-size:13px;">미리보기 오류</div>';}};
+App.makeReport=async function(){const q=($('#report_q')?$('#report_q').value:'').trim();if(!q)return;const st=$('#report_status');st.innerHTML='생성 중… <span class="spinner"></span>';try{const d=await jpost('/api/report',{question:q});if(d.download){st.textContent='생성 완료 — 다운로드를 시작합니다.';window.location=d.download;toast('보고서(.docx) 다운로드');}else{st.textContent=d.error||'생성 실패';toast(d.error||'생성 실패');}}catch(e){st.textContent='생성 실패';}};
+App.render_report=function(){const pv=$('#report_preview');if(pv&&!pv.innerHTML.trim())App.previewReport();};
+
+/* ===== DATA ===== */
+App._dataTab='all';
+const ST_KO={pending:'대기',approved:'승인',rejected:'반려'};
+App.loadData=async function(){if(App._dataTab==='prompt'){App.loadPrompts();return;}const dom=App._dataTab==='all'?'':App._dataTab;try{const d=await jget('/api/docs?status=&domain='+encodeURIComponent(dom));const c=d.counts||{};const tot=(c.approved||0)+(c.pending||0)+(c.rejected||0)||1;$('#data_approved').textContent=c.approved||0;$('#data_pending').textContent=c.pending||0;$('#data_rejected').textContent=c.rejected||0;$('#data_rate').textContent=Math.round((c.approved||0)/tot*100)+'%';const rows=(d.docs||[]).slice(0,30);const head='<div style="display:grid;grid-template-columns:70px 1fr 110px 110px;padding:13px 20px;font-size:11px;letter-spacing:.1em;color:#6E6E6E;border-bottom:1px solid #161616;"><span>상태</span><span>라벨 / 문서</span><span>도메인</span><span style="text-align:right;">검수</span></div>';$('#data_table').innerHTML=head+(rows.length?rows.map(r=>{const stt=r.review_status;const badge=stt==='pending'?'<span style="font-size:11px;color:#000;background:#fff;border-radius:6px;padding:4px 9px;font-weight:600;">대기</span>':stt==='approved'?'<span style="font-size:11px;color:#9A9A9A;border:1px solid #2A2A2A;border-radius:6px;padding:4px 9px;">승인</span>':'<span style="font-size:11px;color:#FF6B6B;border:1px solid rgba(255,107,107,.4);border-radius:6px;padding:4px 9px;">반려</span>';const act=stt==='pending'?'<button onclick="App.review(\''+r.doc_id+'\',\'approved\')" style="background:#fff;color:#000;border:none;border-radius:16px;height:30px;padding:0 15px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;">승인</button>':'<button onclick="App.review(\''+r.doc_id+'\',\''+(stt==='approved'?'rejected':'approved')+'\')" style="background:transparent;color:#9A9A9A;border:1px solid #2A2A2A;border-radius:16px;height:30px;padding:0 13px;font-family:inherit;font-size:11px;cursor:pointer;">'+(stt==='approved'?'반려':'재검토')+'</button>';return'<div style="display:grid;grid-template-columns:70px 1fr 110px 110px;align-items:center;padding:14px 20px;border-bottom:1px solid #141414;font-size:14px;"><span>'+badge+'</span><span style="font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:10px;">'+r.title+'</span><span style="color:#8E8E8E;font-size:12px;">'+(r.domain||'-')+'</span><span style="text-align:right;">'+act+'</span></div>';}).join(''):'<div style="padding:20px;color:#6E6E6E;">문서 없음</div>');}catch(e){$('#data_table').innerHTML='<div style="padding:20px;color:#FF6B6B;">오류</div>';}};
+App.loadPrompts=async function(){try{const rows=await jget('/api/history');$('#data_table').innerHTML='<div style="padding:8px 20px;">'+(rows.length?rows.slice(0,20).map(h=>'<div style="padding:14px 0;border-bottom:1px solid #141414;"><span style="font-size:11px;color:#9A9A9A;border:1px solid #2A2A2A;border-radius:6px;padding:3px 9px;">'+h.provider+'</span> <span style="font-size:11px;color:#5E5E5E;">'+(h.ts||'').slice(5,16).replace('T',' ')+' · 도구['+(h.tools_used||[]).join(', ')+']</span><div style="font-size:14px;margin-top:5px;">'+h.question+'</div></div>').join(''):'<div style="color:#6E6E6E;">이력 없음</div>')+'</div>';}catch(e){}};
+App.review=async function(id,st){try{const d=await jpost('/api/review',{doc_id:id,status:st});if(d.ok){toast('검수 '+(ST_KO[st]||st));App.loadData();App.loadChangelog();}else toast('실패');}catch(e){toast('실패');}};
+App.loadChangelog=async function(){try{const rows=await jget('/api/changelog');$('#data_changelog').innerHTML=rows.length?rows.slice(0,12).map(c=>'<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #141414;"><span style="font-size:11px;color:#9A9A9A;border:1px solid #2A2A2A;border-radius:6px;padding:4px 9px;white-space:nowrap;">'+c.action+'</span><span style="font-size:13px;color:#C8C8C8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(c.field?(c.doc_id||'').slice(0,28)+' · '+c.old_value+' → '+c.new_value:(c.doc_id||'').slice(0,40))+'</span><span style="margin-left:auto;font-size:11px;color:#5E5E5E;white-space:nowrap;">'+(c.ts||'').slice(5,16).replace('T',' ')+'</span></div>').join(''):'<div style="color:#6E6E6E;font-size:13px;">변경 이력 없음</div>';}catch(e){}};
+App.render_data=function(){if(!App._dataWired){App._dataWired=1;$('#data_tabs').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;App._dataTab=c.dataset.t;$$('#data_tabs .chip').forEach(x=>{x.style.borderColor='#232323';x.style.color='#9A9A9A';});c.style.borderColor='#444';c.style.color='#fff';App.loadData();});}App.loadData();App.loadChangelog();};
+
+/* ===== AUTO ===== */
+App.runAuto=async function(){const q=($('#auto_q')?$('#auto_q').value:'').trim();const steps=$('#auto_steps');steps.innerHTML='<div style="color:#6E6E6E;font-size:13px;">절차 구성 중<span class="spinner" style="margin-left:8px;"></span></div>';try{const d=await jpost('/api/automation',{question:q});App._auto=d;$('#auto_title').textContent='"'+(d.title||'')+'"';const n=(d.steps||[]).length;steps.innerHTML='<div style="position:absolute;top:25px;left:12%;right:12%;height:1px;background:#2A2A2A;"></div><div style="display:grid;grid-template-columns:repeat('+n+',1fr);gap:0;position:relative;">'+(d.steps||[]).map((s,i)=>'<div style="position:relative;text-align:center;padding:0 8px;"><div style="width:50px;height:50px;border-radius:50%;background:#000;border:1px solid '+(i===0?'#fff':'#555')+';color:'+(i===0?'#fff':'#C8C8C8')+';display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:300;margin:0 auto 14px;position:relative;z-index:1;">'+s.n+'</div><div style="font-size:14px;font-weight:600;">'+s.title+'</div><div style="font-size:12px;color:#7E7E7E;margin-top:4px;line-height:1.4;">'+s.detail+'</div></div>').join('')+'</div>';}catch(e){steps.innerHTML='<div style="color:#FF6B6B;">오류</div>';}};
+App.execProc=async function(){const ex=$('#auto_exec');ex.innerHTML='절차 실행 중 — 탐지·통계 종합 후 보고서 생성… <span class="spinner"></span>';const q=(App._auto&&App._auto.region?App._auto.region+' 포트홀 ':'')+'노면 안전 보고서로 정리해줘';try{const d=await jpost('/api/report',{question:q});if(d.download){ex.innerHTML='4단계 완료 · 보고서(.docx) 생성됨 — <a href="'+d.download+'" style="color:#fff;text-decoration:underline;">다운로드</a>';toast('업무 자동화 완료');}else ex.textContent=d.error||'실패';}catch(e){ex.textContent='실패';}};
+App.render_auto=function(){if(!App._autoWired){App._autoWired=1;const inp=$('#auto_q');if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')App.runAuto();});}if(!App._autoRan){App._autoRan=1;App.runAuto();}};
+
+window.addEventListener('DOMContentLoaded',()=>App.boot());
+</script>
+</body></html>

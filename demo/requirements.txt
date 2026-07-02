@@ -1,0 +1,12 @@
+# ── 통합 데모 최소 의존성 (모두 GPU 불필요 · Windows 바로 설치) ──
+# 미설치라도 폴백으로 동작하지만, 설치하면 실제 VLM 파이프라인 + .docx 보고서 사용
+pydantic>=2.5        # VLM 구조화 출력(데이터 구조 설계안)
+pillow>=10.0         # 이미지 크기/처리
+pyyaml>=6.0          # VLM 설정 로드
+python-dotenv>=1.0   # .env (API 키)
+python-docx>=1.1     # 보고서(.docx) 자동 생성
+
+# ── (선택) 실데이터/실모델로 승격하려면 주석 해제 ──
+# google-genai>=1.0.0   # Gemini 에이전트 라우팅 + VLM (GEMINI_API_KEY)
+# voyageai>=0.3.0       # Voyage 임베딩 (VOYAGE_API_KEY)
+# ultralytics>=8.3      # YOLO 파인튜닝 추론 (models/best.pt)
