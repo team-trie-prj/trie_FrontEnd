@@ -11,7 +11,7 @@ export default function SnippetModal() {
   return (
     <Modal title={hit.provenance?.label ?? '근거 스니펫'} onClose={closeSnippet}>
       <p className="mb-4 text-sm font-semibold text-ink">{hit.title}</p>
-      <div className="rounded-[12px] border border-line bg-panel2 p-4 text-[13px] leading-[1.8] text-[#C8C8C8]">
+      <div className="rounded-[0.75rem] border border-line bg-panel2 p-4 text-[0.8125rem] leading-[1.8] text-[#C8C8C8]">
         {hit.provenance?.snippet ?? hit.text}
       </div>
       {hit.provenance?.url && (

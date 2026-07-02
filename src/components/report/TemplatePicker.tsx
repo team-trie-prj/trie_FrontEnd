@@ -18,7 +18,7 @@ export default function TemplatePicker({ selected, onSelect, disabled }: Props) 
             key={t.id}
             onClick={() => onSelect(t.id)}
             disabled={disabled}
-            className={`rounded-[12px] border px-4 py-3 text-left transition-colors disabled:opacity-50 ${
+            className={`rounded-[0.75rem] border px-4 py-3 text-left transition-colors disabled:opacity-50 ${
               selected === t.id
                 ? 'border-white bg-[#101010]'
                 : 'border-line hover:border-[#333]'

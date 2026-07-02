@@ -13,7 +13,7 @@ export default function RequireRole({ roles }: { roles: User['role'][] }) {
     return (
       <section className="screen-fade py-20 text-center">
         <p className="mb-2 text-lg font-semibold">접근 권한이 없습니다</p>
-        <p className="mb-6 text-[13px] text-mut">
+        <p className="mb-6 text-[0.8125rem] text-mut">
           이 화면은 {roles.includes('admin') && '관리자'}
           {roles.includes('worker') && ' 또는 실무자'} 권한이 필요합니다. 현재 권한:{' '}
           {user?.role ?? '없음'}

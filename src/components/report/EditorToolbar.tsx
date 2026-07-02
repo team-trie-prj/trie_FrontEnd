@@ -6,7 +6,7 @@ interface Props {
 }
 
 const btnCls = (active: boolean) =>
-  `flex h-8 min-w-8 items-center justify-center rounded-md px-1.5 text-[13px] font-semibold transition-colors ${
+  `flex h-8 min-w-8 items-center justify-center rounded-md px-1.5 text-[0.8125rem] font-semibold transition-colors ${
     active ? 'bg-[#1A1A18] text-white' : 'text-[#1A1A18] hover:bg-[#E4E4DE]'
   }`;
 

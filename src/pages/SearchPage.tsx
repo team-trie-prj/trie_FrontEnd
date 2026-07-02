@@ -22,7 +22,7 @@ export default function SearchPage() {
         description="텍스트 질의와 현장 이미지를 함께 입력하면 에이전트가 최적의 검색 방식을 결정해 하이브리드 탐색을 수행합니다."
       />
       <QueryInput />
-      <div className="mt-4 flex flex-wrap justify-center gap-[9px]">
+      <div className="mt-4 flex flex-wrap justify-center gap-[0.5625rem]">
         {MOCK_TEMPLATES.map((t) => (
           <Chip key={t.id} onClick={() => setQueryText(t.queryText)}>
             {t.label}

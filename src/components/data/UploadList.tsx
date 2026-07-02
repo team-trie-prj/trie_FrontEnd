@@ -22,7 +22,7 @@ export default function UploadList() {
   return (
     <div className="mt-5 flex flex-col gap-3">
       {items.map((it) => (
-        <div key={it.id} className="rounded-[14px] border border-line bg-panel p-4">
+        <div key={it.id} className="rounded-[0.875rem] border border-line bg-panel p-4">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
             <Icon name="description" size={20} className="text-mut" />
             <span className="flex-1 truncate text-sm font-medium">{it.fileName}</span>

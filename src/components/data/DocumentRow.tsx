@@ -26,13 +26,13 @@ export default function DocumentRow({ doc, onDelete }: Props) {
         <span className="flex shrink-0 items-center gap-1.5">
           <button
             onClick={() => onDelete(doc.id)}
-            className="rounded-[14px] bg-danger px-3 py-1.5 text-[11px] font-semibold text-black"
+            className="rounded-[0.875rem] bg-danger px-3 py-1.5 text-[0.6875rem] font-semibold text-black"
           >
             삭제 확인
           </button>
           <button
             onClick={() => setConfirming(false)}
-            className="rounded-[14px] border border-line2 px-3 py-1.5 text-[11px] text-mut"
+            className="rounded-[0.875rem] border border-line2 px-3 py-1.5 text-[0.6875rem] text-mut"
           >
             취소
           </button>

@@ -52,14 +52,14 @@ export default function ResultsPage() {
           </Chip>
         ))}
       </div>
-      <div className="mx-auto flex max-w-[860px] flex-col gap-[13px]">
+      <div className="mx-auto flex max-w-[53.75rem] flex-col gap-[0.8125rem]">
         {response.vlmContext && <VlmContextCard context={response.vlmContext} />}
         {hits.map((h) => (
           <ResultCard key={h.id} hit={h} />
         ))}
         {hits.length === 0 && <p className="py-8 text-center text-mut3">해당 출처의 결과 없음</p>}
         <StatsPanel hits={response.hits} />
-        <div className="mt-2 flex flex-wrap gap-3 [&>button]:min-w-[160px]">
+        <div className="mt-2 flex flex-wrap gap-3 [&>button]:min-w-[10rem]">
           <Button variant="ghost" className="flex-1" onClick={() => navigate(ROUTES.search)}>
             새 검색
           </Button>

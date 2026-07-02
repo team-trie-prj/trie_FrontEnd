@@ -6,7 +6,7 @@ import Spinner from '@/components/common/Spinner';
 import { useCatalogRegistering, useCatalogActions } from '@/stores/catalogStore';
 
 const inputCls =
-  'w-full rounded-[10px] border border-line3 bg-panel2 px-3.5 py-[11px] text-sm text-[#C8C8C8] outline-none placeholder:text-mut4 focus:border-[#444]';
+  'w-full rounded-[0.625rem] border border-line3 bg-panel2 px-3.5 py-[0.6875rem] text-sm text-[#C8C8C8] outline-none placeholder:text-mut4 focus:border-[#444]';
 
 /** FNC-PUB-01 · API 등록 폼 (엔드포인트/파라미터 규격/인증키 → 등록 및 연동 테스트) */
 export default function CatalogForm() {
@@ -46,7 +46,7 @@ export default function CatalogForm() {
       <Button onClick={() => void onSubmit()} disabled={!valid || registering} className="mt-5 w-full">
         {registering ? <Spinner /> : '등록 및 연동 테스트'}
       </Button>
-      <p className="mt-3 text-center text-[11px] text-mut4">
+      <p className="mt-3 text-center text-[0.6875rem] text-mut4">
         1회 테스트 호출(Ping)에 성공해야 카탈로그에 저장됩니다 · 인증키는 서버에서 암호화 보관
       </p>
     </Card>

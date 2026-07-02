@@ -40,14 +40,14 @@ export default function DocumentStatus() {
     <Card className="mt-6 overflow-hidden p-0">
       <div className="flex items-center justify-between gap-3 px-5 py-4 max-[480px]:flex-col max-[480px]:items-stretch">
         <Label>지식 베이스 적재 현황</Label>
-        <div className="flex items-center gap-2 rounded-[10px] border border-line3 bg-panel2 px-3 py-2">
+        <div className="flex items-center gap-2 rounded-[0.625rem] border border-line3 bg-panel2 px-3 py-2">
           <Icon name="search" size={15} className="shrink-0 text-mut3" />
           <input
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             aria-label="적재 문서 검색"
             placeholder="파일명·도메인 검색"
-            className="w-[170px] border-none bg-transparent text-[13px] text-ink outline-none placeholder:text-mut4 max-[480px]:w-full"
+            className="w-[10.625rem] border-none bg-transparent text-[0.8125rem] text-ink outline-none placeholder:text-mut4 max-[480px]:w-full"
           />
         </div>
       </div>
@@ -58,14 +58,14 @@ export default function DocumentStatus() {
           ['총 용량', docs ? formatBytes(totalSize) : '—'],
         ].map(([k, v]) => (
           <div key={k} className="bg-black p-5 text-center max-[480px]:p-3">
-            <div className="text-[26px] font-light max-[480px]:text-lg">{v}</div>
+            <div className="text-[1.625rem] font-light max-[480px]:text-lg">{v}</div>
             <div className="mt-1 text-xs text-mut2">{k}</div>
           </div>
         ))}
       </div>
-      {filtered === null && <p className="px-5 py-4 text-[13px] text-mut3">불러오는 중…</p>}
+      {filtered === null && <p className="px-5 py-4 text-[0.8125rem] text-mut3">불러오는 중…</p>}
       {filtered?.length === 0 && (
-        <p className="px-5 py-4 text-[13px] text-mut3">
+        <p className="px-5 py-4 text-[0.8125rem] text-mut3">
           {q ? `'${keyword}' 검색 결과가 없습니다.` : '적재된 문서가 없습니다.'}
         </p>
       )}

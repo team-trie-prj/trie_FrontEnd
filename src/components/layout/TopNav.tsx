@@ -18,8 +18,8 @@ export default function TopNav() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <nav className="z-30 shrink-0 border-b border-[#151515] bg-black/70 backdrop-blur-[14px]">
-      <div className="flex min-h-[70px] flex-wrap items-center gap-x-[18px] gap-y-1 px-[30px] py-2 max-[480px]:gap-x-2 max-[480px]:px-3">
+    <nav className="z-30 shrink-0 border-b border-[#151515] bg-black/70 backdrop-blur-[0.875rem]">
+      <div className="flex min-h-[4.375rem] flex-wrap items-center gap-x-[1.125rem] gap-y-1 px-[1.875rem] py-2 max-[480px]:gap-x-2 max-[480px]:px-3">
         <button
           onClick={() => setDrawerOpen(true)}
           className="rounded-md p-2 text-mut hover:text-ink min-[481px]:hidden"
@@ -28,7 +28,7 @@ export default function TopNav() {
           <Icon name="menu" size={22} />
         </button>
         <BrandLogo />
-        <div className="ml-[18px] flex min-w-0 flex-1 items-center gap-0.5 max-[900px]:order-last max-[900px]:ml-0 max-[900px]:basis-full max-[900px]:justify-center max-[480px]:hidden">
+        <div className="ml-[1.125rem] flex min-w-0 flex-1 items-center gap-0.5 max-[900px]:order-last max-[900px]:ml-0 max-[900px]:basis-full max-[900px]:justify-center max-[480px]:hidden">
           {NAV_GROUPS.map((g) => (
             <NavDropdown key={g.key} group={g} />
           ))}
@@ -47,14 +47,14 @@ export default function TopNav() {
                 await logout();
                 navigate(ROUTES.login);
               }}
-              className="flex h-10 items-center whitespace-nowrap rounded-[20px] border border-white/30 px-5 text-sm font-semibold transition-colors hover:bg-white/[.06] max-[640px]:px-3.5"
+              className="flex h-10 items-center whitespace-nowrap rounded-[1.25rem] border border-white/30 px-5 text-sm font-semibold transition-colors hover:bg-white/[.06] max-[640px]:px-3.5"
             >
               {user?.nickname} · 로그아웃
             </button>
           ) : (
             <button
               onClick={() => navigate(ROUTES.login)}
-              className="flex h-10 items-center whitespace-nowrap rounded-[20px] bg-white px-5 text-sm font-semibold text-black hover:bg-[#e9e9e9]"
+              className="flex h-10 items-center whitespace-nowrap rounded-[1.25rem] bg-white px-5 text-sm font-semibold text-black hover:bg-[#e9e9e9]"
             >
               로그인
             </button>

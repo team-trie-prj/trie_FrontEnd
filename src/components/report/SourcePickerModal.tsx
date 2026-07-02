@@ -21,7 +21,7 @@ export default function SourcePickerModal({ open, selected, onSelect, onClose }:
           onClose();
         }}
       />
-      <p className="text-center text-[11px] text-mut4">
+      <p className="text-center text-[0.6875rem] text-mut4">
         현재 검색 결과 또는 과거 검색 세션(최대 50개)에서 선택합니다
       </p>
     </Modal>

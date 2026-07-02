@@ -20,7 +20,7 @@ export default function TemplateSuggest() {
   };
 
   return (
-    <Card className="mx-auto mt-6 max-w-[680px] screen-fade">
+    <Card className="mx-auto mt-6 max-w-[42.5rem] screen-fade">
       <div className="mb-4 flex items-center gap-2.5">
         <Icon name="smart_toy" size={20} />
         <Label>질의가 모호해요 · 이런 검색은 어떠세요?</Label>
@@ -30,9 +30,9 @@ export default function TemplateSuggest() {
           <button
             key={t.id}
             onClick={() => applyTemplate(t)}
-            className="flex items-center gap-3 rounded-[12px] border border-line px-4 py-3 text-left transition-colors hover:border-[#333] hover:bg-[#101010]"
+            className="flex items-center gap-3 rounded-[0.75rem] border border-line px-4 py-3 text-left transition-colors hover:border-[#333] hover:bg-[#101010]"
           >
-            <span className="rounded-md border border-line2 px-2 py-0.5 text-[11px] text-mut">
+            <span className="rounded-md border border-line2 px-2 py-0.5 text-[0.6875rem] text-mut">
               {t.domain}
             </span>
             <span className="min-w-0 flex-1 truncate text-sm font-medium">{t.label}</span>

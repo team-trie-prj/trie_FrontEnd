@@ -22,8 +22,8 @@ export default {
       fontFamily: {
         sans: ['Pretendard Variable', 'Pretendard', 'system-ui', '-apple-system', 'sans-serif'],
       },
-      borderRadius: { card: '18px' },
-      maxWidth: { wrap: '1180px' },
+      borderRadius: { card: '1.125rem' },
+      maxWidth: { wrap: '73.75rem' },
     },
   },
   plugins: [],

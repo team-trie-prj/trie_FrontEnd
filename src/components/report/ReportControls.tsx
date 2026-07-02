@@ -26,7 +26,7 @@ export default function ReportControls({
       <button
         onClick={onOpenPicker}
         disabled={busy}
-        className={`mb-5 flex w-full items-center gap-2.5 rounded-[12px] border px-3.5 py-3 text-left transition-colors disabled:opacity-50 ${
+        className={`mb-5 flex w-full items-center gap-2.5 rounded-[0.75rem] border px-3.5 py-3 text-left transition-colors disabled:opacity-50 ${
           sourceSelected ? 'border-line hover:border-[#333]' : 'border-danger/40'
         }`}
       >
@@ -35,8 +35,8 @@ export default function ReportControls({
           size={16}
           className={sourceSelected ? 'shrink-0 text-mut' : 'shrink-0 text-danger'}
         />
-        <span className="min-w-0 flex-1 truncate text-[13px] font-medium">{sourceLabel}</span>
-        <span className="shrink-0 text-[11px] text-mut3">변경</span>
+        <span className="min-w-0 flex-1 truncate text-[0.8125rem] font-medium">{sourceLabel}</span>
+        <span className="shrink-0 text-[0.6875rem] text-mut3">변경</span>
       </button>
       <TemplatePicker selected={templateId} onSelect={onSelectTemplate} disabled={busy} />
     </>

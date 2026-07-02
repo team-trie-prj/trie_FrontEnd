@@ -12,7 +12,7 @@ export default function Pill({ tone = 'default', className = '', ...rest }: Pill
       : 'border-line2 text-[#C8C8C8]';
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-[20px] border px-[13px] py-1.5 text-xs font-medium ${toneCls} ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-[1.25rem] border px-[0.8125rem] py-1.5 text-xs font-medium ${toneCls} ${className}`}
       {...rest}
     />
   );

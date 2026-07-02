@@ -7,6 +7,6 @@ export default function Label({
   className?: string;
 }) {
   return (
-    <div className={`text-[11px] tracking-[.14em] text-mut3 ${className}`}>{children}</div>
+    <div className={`text-[0.6875rem] tracking-[.14em] text-mut3 ${className}`}>{children}</div>
   );
 }

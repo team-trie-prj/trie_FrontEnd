@@ -22,7 +22,7 @@ export default function Modal({ title, onClose, children }: ModalProps) {
     >
       <div
         ref={trapRef}
-        className="screen-fade w-full max-w-[560px] rounded-card border border-line2 bg-[#0C0C0C] p-6 shadow-[0_20px_50px_rgba(0,0,0,.6)]"
+        className="screen-fade w-full max-w-[35rem] rounded-card border border-line2 bg-[#0C0C0C] p-6 shadow-[0_20px_50px_rgba(0,0,0,.6)]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">

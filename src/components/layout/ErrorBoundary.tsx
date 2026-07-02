@@ -20,12 +20,12 @@ export default class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="flex h-screen flex-col items-center justify-center bg-bg text-ink">
           <p className="mb-2 text-lg font-semibold">문제가 발생했습니다</p>
-          <p className="mb-6 text-[13px] text-mut">
+          <p className="mb-6 text-[0.8125rem] text-mut">
             화면을 그리는 중 오류가 발생했습니다. 새로고침 후 다시 시도해주세요.
           </p>
           <button
             onClick={() => window.location.reload()}
-            className="h-[46px] rounded-[23px] bg-white px-[22px] text-sm font-semibold text-black hover:bg-[#e9e9e9]"
+            className="h-[2.875rem] rounded-[1.4375rem] bg-white px-[1.375rem] text-sm font-semibold text-black hover:bg-[#e9e9e9]"
           >
             새로고침
           </button>

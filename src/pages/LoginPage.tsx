@@ -33,27 +33,27 @@ export default function LoginPage() {
   return (
     <div className="relative flex h-screen flex-col items-center justify-center overflow-x-hidden bg-black px-4">
       <div
-        className="pointer-events-none absolute top-0 left-1/2 h-[460px] w-[1000px] -translate-x-1/2"
+        className="pointer-events-none absolute top-0 left-1/2 h-[28.75rem] w-[62.5rem] -translate-x-1/2"
         style={{
           background:
             'radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255,255,255,.07), rgba(255,255,255,0) 70%)',
         }}
       />
       <img src="/logo.svg" alt="TRIE 로고" width={64} height={64} className="mb-6" />
-      <div className="mb-[18px] text-[13px] tracking-[.16em] text-mut3">
+      <div className="mb-[1.125rem] text-[0.8125rem] tracking-[.16em] text-mut3">
         TRIE · 지능형 정보 시스템
       </div>
-      <h1 className="text-center text-[44px] font-light leading-[1.15] tracking-[-.03em] max-[480px]:text-[30px]">
+      <h1 className="text-center text-[2.75rem] font-light leading-[1.15] tracking-[-.03em] max-[480px]:text-[1.875rem]">
         무엇이든 <b className="font-medium">분석</b>할 준비
       </h1>
-      <p className="mt-4 max-w-[440px] text-center text-base leading-[1.65] text-mut">
+      <p className="mt-4 max-w-[27.5rem] text-center text-base leading-[1.65] text-mut">
         카카오 계정으로 로그인하면 멀티모달 검색, 보고서 생성, 데이터 관리 기능을 사용할 수
         있습니다.
       </p>
       <button
         onClick={onKakaoClick}
         disabled={status === 'authenticating'}
-        className="mt-9 inline-flex h-[52px] items-center gap-2.5 rounded-[26px] bg-kakao px-8 text-[15px] font-semibold text-[#191919] transition-opacity hover:opacity-90 disabled:opacity-50"
+        className="mt-9 inline-flex h-[3.25rem] items-center gap-2.5 rounded-[1.625rem] bg-kakao px-8 text-[0.9375rem] font-semibold text-[#191919] transition-opacity hover:opacity-90 disabled:opacity-50"
       >
         {status === 'authenticating' ? (
           <Spinner />
