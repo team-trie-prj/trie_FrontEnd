@@ -3,6 +3,7 @@ import Card from '@/components/common/Card';
 import Label from '@/components/common/Label';
 import UploadDropzone from '@/components/data/UploadDropzone';
 import UploadList from '@/components/data/UploadList';
+import DocumentStatus from '@/components/data/DocumentStatus';
 
 /** 데이터 관리 화면 (FNC-DAT-01/02) */
 export default function DataPage() {
@@ -20,6 +21,7 @@ export default function DataPage() {
       <div className="mx-auto max-w-[760px]">
         <UploadDropzone />
         <UploadList />
+        <DocumentStatus />
         <Card className="mt-6">
           <Label className="mb-3.5">처리 파이프라인</Label>
           <ol className="space-y-2.5 text-[13px] leading-[1.7] text-mut2">

@@ -12,3 +12,14 @@ export interface UploadItem {
   errorMessage?: string;
   uploadedAt: string;
 }
+
+/** 서버에 적재 완료된 문서 (FNC-DAT-02 · ChromaDB 인덱싱 + PostgreSQL 메타) */
+export interface StoredDocument {
+  id: string;
+  fileName: string;
+  size: number;
+  /** 시맨틱 청킹 후 임베딩된 청크 수 */
+  chunkCount: number;
+  domain: string;
+  uploadedAt: string;
+}
