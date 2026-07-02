@@ -5,7 +5,7 @@ import { NAV_GROUPS } from '@/constants/navigation';
 export default function Footer() {
   return (
     <footer className="mt-10 border-t border-[#141414] bg-black">
-      <div className="mx-auto grid max-w-wrap grid-cols-[1.6fr_1fr_1fr_1fr] gap-[30px] px-9 pb-[30px] pt-[50px] max-[900px]:grid-cols-2 max-[560px]:grid-cols-1 max-[640px]:px-5">
+      <div className="mx-auto grid max-w-wrap grid-cols-[1.6fr_1fr_1fr_1fr] gap-[30px] px-9 pb-[30px] pt-[50px] max-[640px]:grid-cols-2 max-[560px]:grid-cols-1 max-[640px]:px-5">
         <div>
           <div className="mb-3.5 flex items-center gap-2.5">
             <img src="/logo.svg" alt="TRIE 로고" width={28} height={28} />

@@ -19,7 +19,7 @@ export default function TopNav() {
     <nav className="z-30 shrink-0 border-b border-[#151515] bg-black/70 backdrop-blur-[14px]">
       <div className="flex min-h-[70px] flex-wrap items-center gap-x-[18px] gap-y-1 px-[30px] py-2 max-[640px]:gap-x-2.5 max-[640px]:px-4">
         <BrandLogo />
-        <div className="ml-[18px] flex min-w-0 flex-1 flex-wrap items-center gap-0.5 max-[900px]:hidden">
+        <div className="ml-[18px] flex min-w-0 flex-1 flex-wrap items-center gap-0.5 max-[640px]:hidden">
           {NAV_GROUPS.map((g) => (
             <NavDropdown key={g.key} group={g} />
           ))}

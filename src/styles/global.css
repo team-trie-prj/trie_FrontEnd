@@ -21,6 +21,7 @@ body,
 body {
   @apply bg-bg text-ink font-sans text-sm antialiased;
   overflow-wrap: break-word;
+  word-break: keep-all;
 }
 
 /* Material Symbols */

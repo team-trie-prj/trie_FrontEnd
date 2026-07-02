@@ -23,7 +23,7 @@ export default function CatalogPage() {
         }
         description="공공데이터포털 API의 엔드포인트와 파라미터 구조를 등록하면 연동 테스트를 거쳐 에이전트의 도구 목록에 동적 활성화됩니다."
       />
-      <div className="mx-auto grid max-w-[980px] grid-cols-[minmax(300px,380px)_minmax(0,1fr)] items-start gap-5 max-[900px]:grid-cols-1">
+      <div className="mx-auto grid max-w-[980px] grid-cols-[minmax(300px,380px)_minmax(0,1fr)] items-start gap-5 max-[640px]:grid-cols-1">
         <CatalogForm />
         <CatalogTable />
       </div>

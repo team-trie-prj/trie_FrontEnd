@@ -17,7 +17,7 @@ export default function AppLayout() {
               'radial-gradient(ellipse 50% 50% at 50% 50%, rgba(255,255,255,.07), rgba(255,255,255,0) 70%)',
           }}
         />
-        <div className="relative mx-auto max-w-wrap px-9 pb-[70px] pt-12 max-[900px]:px-5 max-[640px]:pt-8">
+        <div className="relative mx-auto max-w-wrap px-9 pb-[70px] pt-12 max-[640px]:px-5 max-[640px]:pt-8">
           <Outlet />
         </div>
         <Footer />

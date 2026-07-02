@@ -63,7 +63,7 @@ export default function ReportPage() {
         }
         description="근거 데이터와 실무 양식을 선택해 초안을 생성하고, 화면에서 직접 수정한 뒤 파일로 내보냅니다."
       />
-      <div className="grid grid-cols-[minmax(260px,320px)_minmax(0,1fr)] items-start gap-5 max-[900px]:grid-cols-1">
+      <div className="grid grid-cols-[minmax(260px,320px)_minmax(0,1fr)] items-start gap-5 max-[640px]:grid-cols-1">
         <Card>
           <ReportControls
             sourceLabel={sourceLabel}
