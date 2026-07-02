@@ -5,3 +5,7 @@ dist
 .DS_Store
 __pycache__/
 *.pyc
+
+# 로컬 참고용 자료 (저장소 미포함)
+demo/
+기능 명세서.txt
