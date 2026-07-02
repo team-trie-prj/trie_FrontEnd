@@ -12,6 +12,7 @@ export const ENDPOINTS = {
   data: {
     upload: '/documents/upload', // POST multipart (PDF/DOCX ≤ 20MB)
     list: '/documents', // GET
+    remove: (id: string) => `/documents/${id}`, // DELETE (명세 외 — BE 협의 필요)
   },
   catalog: {
     register: '/catalog/apis', // POST CatalogRegisterRequest (등록+연동 테스트)

@@ -1,4 +1,4 @@
-import { get, post } from './client';
+import { get, post, request } from './client';
 import { ENDPOINTS } from './endpoints';
 import { USE_MOCK } from './config';
 import { MOCK_DOCUMENTS } from '@/mocks/commonMocks';
@@ -34,4 +34,13 @@ export async function uploadDocument(
 export async function listDocuments(): Promise<StoredDocument[]> {
   if (USE_MOCK) return Promise.resolve([...MOCK_DOCUMENTS]);
   return get<StoredDocument[]>(ENDPOINTS.data.list);
+}
+
+/** 적재 문서 삭제 (명세 외 기능 — 명세외_추가기능.txt 참조) */
+export async function deleteDocument(id: string): Promise<void> {
+  if (USE_MOCK) {
+    await new Promise((r) => setTimeout(r, 300));
+    return;
+  }
+  await request(ENDPOINTS.data.remove(id), { method: 'DELETE' });
 }
