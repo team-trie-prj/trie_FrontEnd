@@ -29,7 +29,7 @@ export default function NavDropdown({ group }: { group: NavGroup }) {
           <path d="M6 9l6 6 6-6" />
         </svg>
         {active && (
-          <span className="absolute inset-x-3.5 -bottom-[23px] h-0.5 bg-white" aria-hidden />
+          <span className="absolute inset-x-3.5 -bottom-[23px] h-0.5 bg-white max-[900px]:hidden" aria-hidden />
         )}
       </button>
       <div className="invisible absolute left-0 top-[calc(100%+10px)] z-40 min-w-[264px] -translate-y-1.5 rounded-[14px] border border-line2 bg-[#0C0C0C] p-2 opacity-0 shadow-[0_20px_50px_rgba(0,0,0,.6)] transition-all duration-[180ms] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">

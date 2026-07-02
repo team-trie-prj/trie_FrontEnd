@@ -28,7 +28,7 @@ export default function TopNav() {
           <Icon name="menu" size={22} />
         </button>
         <BrandLogo />
-        <div className="ml-[18px] flex min-w-0 flex-1 flex-wrap items-center gap-0.5 max-[480px]:hidden">
+        <div className="ml-[18px] flex min-w-0 flex-1 items-center gap-0.5 max-[900px]:order-last max-[900px]:ml-0 max-[900px]:basis-full max-[900px]:justify-center max-[480px]:hidden">
           {NAV_GROUPS.map((g) => (
             <NavDropdown key={g.key} group={g} />
           ))}
