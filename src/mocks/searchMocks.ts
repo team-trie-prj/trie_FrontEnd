@@ -27,11 +27,6 @@ export function mockSearchResponse(text: string, hasImage: boolean): SearchRespo
   return {
     sessionId: newSessionId(),
     routing: { mode: 'hybrid', intent: '통계+지침 융합 조회', domain: '도로' },
-    answer:
-      `'${text || '첨부 이미지'}' 질의에 대해 사내 지침서 2건과 공공데이터 통계 1건을 종합했습니다. ` +
-      '최근 6개월 포트홀 민원은 총 318건으로 5월(73건)이 최고치이며, 사내 응급복구 매뉴얼 기준 ' +
-      '깊이 5cm 이상 포트홀은 24시간 이내 응급복구 대상입니다.' +
-      (hasImage ? ' 첨부 이미지에서는 깊이 8cm급 포트홀이 식별되어 우선 조치가 필요합니다.' : ''),
     vlmContext: hasImage
       ? '이미지 분석: 아스팔트 노면에 직경 약 40cm, 깊이 8cm 이상의 포트홀이 식별됨. 차선 인접부로 2차 사고 위험이 높음.'
       : undefined,
