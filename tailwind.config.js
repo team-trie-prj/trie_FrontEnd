@@ -20,7 +20,7 @@ export default {
         kakao: '#FEE500',
       },
       fontFamily: {
-        sans: ['Pretendard', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Pretendard Variable', 'Pretendard', 'system-ui', '-apple-system', 'sans-serif'],
       },
       borderRadius: { card: '18px' },
       maxWidth: { wrap: '1180px' },
