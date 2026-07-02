@@ -58,7 +58,7 @@ export default function DocumentStatus() {
           ['총 용량', docs ? formatBytes(totalSize) : '—'],
         ].map(([k, v]) => (
           <div key={k} className="bg-black p-5 text-center max-[480px]:p-3">
-            <div className="text-[26px] font-light max-[480px]:text-lg">{v}</div>
+            <div className="text-[clamp(16px,2.6vw,26px)] font-light">{v}</div>
             <div className="mt-1 text-xs text-mut2">{k}</div>
           </div>
         ))}

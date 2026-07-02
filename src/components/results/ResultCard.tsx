@@ -24,14 +24,14 @@ export default function ResultCard({ hit }: { hit: SearchHit }) {
           <span className="text-[11px] tracking-[.1em] text-mut3">
             {SOURCE_LABEL[hit.source]}
           </span>
-          <span className="text-xl font-light">{hit.score.toFixed(2)}</span>
+          <span className="text-[clamp(15px,2vw,20px)] font-light">{hit.score.toFixed(2)}</span>
         </div>
       </div>
       <button
         onClick={() => setExpanded((v) => !v)}
         className="flex w-full items-center justify-between gap-3 text-left"
       >
-        <span className="text-base font-semibold">{hit.title}</span>
+        <span className="min-w-0 text-[clamp(14px,1.8vw,16px)] font-semibold">{hit.title}</span>
         <Icon
           name="expand_more"
           size={20}

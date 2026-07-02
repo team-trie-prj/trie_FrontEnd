@@ -43,7 +43,7 @@ export default function LoginPage() {
       <div className="mb-[18px] text-[13px] tracking-[.16em] text-mut3">
         TRIE · 지능형 정보 시스템
       </div>
-      <h1 className="text-center text-[44px] font-light leading-[1.1] tracking-[-.03em] max-[640px]:text-[30px]">
+      <h1 className="text-center text-[clamp(26px,5vw,44px)] font-light leading-[1.15] tracking-[-.03em]">
         무엇이든 <b className="font-medium">분석</b>할 준비
       </h1>
       <p className="mt-4 max-w-[440px] text-center text-base leading-[1.65] text-mut">
