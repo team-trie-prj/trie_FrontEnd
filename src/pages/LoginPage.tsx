@@ -31,7 +31,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative flex h-screen flex-col items-center justify-center bg-black">
+    <div className="relative flex h-screen flex-col items-center justify-center overflow-x-hidden bg-black px-4">
       <div
         className="pointer-events-none absolute top-0 left-1/2 h-[460px] w-[1000px] -translate-x-1/2"
         style={{

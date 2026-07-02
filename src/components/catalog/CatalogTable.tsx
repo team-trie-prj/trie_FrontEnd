@@ -36,6 +36,7 @@ export default function CatalogTable() {
           />
         </div>
       </div>
+      <div className="min-w-0 overflow-x-auto">
       <div className="grid grid-cols-[1fr_100px_120px] border-b border-[#161616] px-5 py-3 text-[11px] tracking-[.1em] text-mut3 max-[480px]:hidden">
         <span>API</span>
         <span>상태</span>
@@ -69,6 +70,7 @@ export default function CatalogTable() {
           </span>
         </div>
       ))}
+      </div>
     </Card>
   );
 }

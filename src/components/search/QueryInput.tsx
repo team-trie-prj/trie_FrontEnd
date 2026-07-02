@@ -20,7 +20,7 @@ export default function QueryInput() {
   };
 
   return (
-    <div className="mx-auto flex max-w-[680px] flex-wrap items-center gap-3 rounded-[30px] border border-line3 bg-panel py-[7px] pl-[22px] pr-[7px] max-[480px]:gap-2 max-[480px]:pl-4">
+    <div className="mx-auto flex w-full max-w-[680px] flex-wrap items-center gap-3 rounded-[30px] border border-line3 bg-panel py-[7px] pl-[22px] pr-[7px] max-[480px]:gap-2 max-[480px]:pl-4">
       <Icon name="auto_awesome" size={21} className="text-ink" />
       <input
         value={queryText}

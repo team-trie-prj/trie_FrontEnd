@@ -9,7 +9,7 @@ export default function AppLayout() {
   return (
     <div className="flex h-screen flex-col overflow-hidden">
       <TopNav />
-      <main className="relative flex-1 overflow-y-auto bg-black">
+      <main className="relative flex-1 overflow-y-auto overflow-x-hidden bg-black">
         <div
           className="pointer-events-none absolute -top-[100px] left-1/2 h-[460px] w-[1000px] -translate-x-1/2"
           style={{
