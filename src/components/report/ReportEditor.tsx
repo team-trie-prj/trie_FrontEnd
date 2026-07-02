@@ -3,11 +3,7 @@ import RichTextEditor from './RichTextEditor';
 import { markdownToHtml } from '@/utils/markdown';
 import { useReportDraft, useReportStatus, useReportActions } from '@/stores/reportStore';
 
-/**
- * FNC-REP-01/02 · 보고서 뷰어/에디터.
- * - 스트리밍 중: 실시간 마크다운 렌더링
- * - 완료 후: TipTap 위지윅 에디터로 본문 직접 수정 (마크다운 동기화)
- */
+/** FNC-REP-01/02 · 보고서 뷰어/에디터. */
 export default function ReportEditor() {
   const draft = useReportDraft();
   const status = useReportStatus();

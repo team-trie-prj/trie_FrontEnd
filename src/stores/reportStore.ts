@@ -47,13 +47,9 @@ const useReportStore = create<ReportState>()((set) => ({
     reset: () => set({ draft: null, status: 'idle' }),
   },
 }));
-
-// ===== 히스토리 복원용 이벤트 함수 =====
 export function restoreReport(draft: ReportDraft | undefined) {
   useReportStore.setState({ draft: draft ?? null, status: draft ? 'done' : 'idle' });
 }
-
-// ===== atomic selectors =====
 export const useReportDraft = () => useReportStore((s) => s.draft);
 export const useReportStatus = () => useReportStore((s) => s.status);
 export const useReportActions = () => useReportStore((s) => s.actions);

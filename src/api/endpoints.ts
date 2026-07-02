@@ -1,7 +1,4 @@
-/**
- * ⚠️ API 명세서 미확정 — 아래 경로는 자리표시자(placeholder)입니다.
- * 백엔드 명세 확정 시 이 파일만 수정하면 됩니다.
- */
+/** ⚠️ API 명세서 미확정 — 아래 경로는 자리표시자(placeholder)입니다. */
 export const ENDPOINTS = {
   auth: {
     kakaoLogin: '/auth/kakao', // POST { code } → LoginResponse

@@ -83,8 +83,6 @@ const useSearchStore = create<SearchState>()((set, get) => ({
     },
   },
 }));
-
-// ===== atomic selectors =====
 export const useQueryText = () => useSearchStore((s) => s.queryText);
 export const useAttachedImage = () => useSearchStore((s) => s.image);
 export const useSearchPhase = () => useSearchStore((s) => s.phase);

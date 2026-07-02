@@ -1,7 +1,4 @@
-/**
- * 경량 마크다운 → HTML 변환기 (보고서 미리보기용).
- * 헤딩/굵게/목록/문단만 지원 — 고급 문법 필요 시 라이브러리 도입 검토.
- */
+/** 경량 마크다운 → HTML 변환기 (보고서 미리보기용). */
 const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 

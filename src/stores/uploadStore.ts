@@ -55,7 +55,5 @@ const useUploadStore = create<UploadState>()((set) => ({
     remove: (id) => set((s) => ({ items: s.items.filter((it) => it.id !== id) })),
   },
 }));
-
-// ===== atomic selectors =====
 export const useUploadItems = () => useUploadStore((s) => s.items);
 export const useUploadActions = () => useUploadStore((s) => s.actions);

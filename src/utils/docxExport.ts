@@ -1,7 +1,4 @@
-/**
- * FNC-REP-02 · 마크다운 → 정식 .docx 빌드 (docx 라이브러리).
- * 클릭 시점에 동적 import — 초기/보고서 청크 용량에 영향 없음.
- */
+/** FNC-REP-02 · 마크다운 → 정식 .docx 빌드 (docx 라이브러리). */
 type DocxModule = typeof import('docx');
 
 /** **굵게** 마킹을 TextRun 배열로 분해 */

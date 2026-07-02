@@ -19,10 +19,7 @@ export const VLM_TIMEOUT_MS = 15000;
 /** 모호 질의 판별 (mock) — 실제로는 백엔드 LLM 에이전트가 판단 (FNC-SRC-02) */
 const isAmbiguous = (text: string) => text.trim().length > 0 && text.trim().length < 6;
 
-/**
- * FNC-SRC-01/02 · 질의 라우팅. 모호하면 검색 보류 + 템플릿 역제안.
- * skipSuggestion=true 면 역제안 1회 스킵하고 강행 (FNC-SRC-02 예외)
- */
+/** FNC-SRC-01/02 · 질의 라우팅. 모호하면 검색 보류 + 템플릿 역제안. */
 export async function routeQuery(text: string, skipSuggestion: boolean): Promise<RoutingResult> {
   if (USE_MOCK) {
     await delay(400);

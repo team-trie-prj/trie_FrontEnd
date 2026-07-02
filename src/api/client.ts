@@ -1,12 +1,7 @@
 import { API_BASE_URL } from './config';
 import { newSessionId } from '@/utils/uuid';
 
-/**
- * 공통 fetch 래퍼 (FNC-AUTH-01 / FNC-SRC-03)
- * - Authorization: Bearer <accessToken> 자동 부착
- * - X-Session-Id: 매 호출 고유 UUID · Cache-Control: no-cache 강제
- * - 401 수신 시 Refresh Token 재발급 후 1회 재시도
- */
+/** 공통 fetch 래퍼 (FNC-AUTH-01 / FNC-SRC-03) */
 
 let getToken: () => string | null = () => null;
 let tryRefresh: () => Promise<boolean> = async () => false;

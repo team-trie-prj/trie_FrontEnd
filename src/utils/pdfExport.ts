@@ -1,9 +1,6 @@
 import { markdownToHtml } from './markdown';
 
-/**
- * FNC-REP-02 · 마크다운 → PDF 파일 즉시 다운로드 (html2pdf.js).
- * 인쇄 다이얼로그 없이 바로 저장 — 라이브러리는 클릭 시점에 동적 로드.
- */
+/** FNC-REP-02 · 마크다운 → PDF 파일 즉시 다운로드 (html2pdf.js). */
 const BASE_STYLE =
   'position:fixed;left:-10000px;top:0;width:720px;background:#fff;color:#1A1A18;' +
   "font-family:'Pretendard Variable',Pretendard,'Malgun Gothic',sans-serif;" +

@@ -4,10 +4,8 @@ import { bindRefreshHandler, bindTokenProvider } from '@/api/client';
 import { toast } from './uiStore';
 import type { User } from '@/types/auth';
 
-/**
- * FNC-AUTH-01 · 인증 상태. Access Token은 메모리에만 보관.
- * TODO: Refresh Token은 HttpOnly 쿠키 방식 권장 — 백엔드 명세 확정 후 결정.
- */
+/** FNC-AUTH-01 · 인증 상태. Access Token은 메모리에만 보관. */
+// TODO: Refresh Token은 HttpOnly 쿠키 방식 권장 — 백엔드 명세 확정 후 결정.
 interface AuthState {
   user: User | null;
   accessToken: string | null;
@@ -48,8 +46,6 @@ const useAuthStore = create<AuthState>()((set) => ({
     },
   },
 }));
-
-// ===== client.ts 바인딩 (순환 의존 방지) =====
 bindTokenProvider(() => useAuthStore.getState().accessToken);
 bindRefreshHandler(async () => {
   const { refreshToken } = useAuthStore.getState();
@@ -63,8 +59,6 @@ bindRefreshHandler(async () => {
     return false;
   }
 });
-
-// ===== atomic selectors =====
 export const useUser = () => useAuthStore((s) => s.user);
 export const useIsAuthenticated = () => useAuthStore((s) => s.status === 'authenticated');
 export const useAuthStatus = () => useAuthStore((s) => s.status);

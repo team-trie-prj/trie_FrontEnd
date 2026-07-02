@@ -7,11 +7,7 @@ interface Props {
   onOpenSnippet: (hit: SearchHit) => void;
 }
 
-/**
- * FNC-VIW-01 · 원본 출처 배지.
- * 출처 메타데이터가 없으면 "출처 미상 (확인 주의)" 붉은 배지를 강제 부여한다.
- * 클릭 시 근거 스니펫 모달을 연다.
- */
+/** FNC-VIW-01 · 원본 출처 배지. */
 export default function SourceBadge({ hit, onOpenSnippet }: Props) {
   if (!hit.provenance?.label) {
     return (

@@ -1,10 +1,6 @@
 import { create } from 'zustand';
 
-/**
- * UI 전역 상태 (토스트/사이드바).
- * 규칙: 스토어 자체는 export하지 않고 atomic selector 훅만 export.
- * 상태와 액션은 분리된 네임스페이스로 관리한다.
- */
+/** UI 전역 상태 (토스트/사이드바). */
 interface UiState {
   toastMessage: string | null;
   sidebarOpen: boolean;
@@ -30,8 +26,6 @@ const useUiStore = create<UiState>()((set) => ({
     toggleSidebar: (open) => set((s) => ({ sidebarOpen: open ?? !s.sidebarOpen })),
   },
 }));
-
-// ===== atomic selectors =====
 export const useToastMessage = () => useUiStore((s) => s.toastMessage);
 export const useSidebarOpen = () => useUiStore((s) => s.sidebarOpen);
 export const useUiActions = () => useUiStore((s) => s.actions);

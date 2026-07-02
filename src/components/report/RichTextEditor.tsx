@@ -8,12 +8,7 @@ interface Props {
   onChange: (markdown: string) => void;
 }
 
-/**
- * FNC-REP-02 · TipTap 기반 위지윅 인라인 에디터 + 서식 툴바.
- * - 마크다운 양방향 변환 (tiptap-markdown)
- * - StarterKit만 활성화 → 이미지 임베드 등은 차단되어
- *   텍스트 스타일 가이드 안에서만 편집 가능 (명세 예외사항 충족)
- */
+/** FNC-REP-02 · TipTap 기반 위지윅 인라인 에디터 + 서식 툴바. */
 export default function RichTextEditor({ initialMarkdown, onChange }: Props) {
   const editor = useEditor({
     extensions: [StarterKit, Markdown],

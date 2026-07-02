@@ -1,7 +1,4 @@
-/**
- * WBS · 대용량 이미지 클라이언트 사이드 리사이징.
- * 서버(오렌지파이) 대역폭·VLM API 비용 절감을 위해 전송 전 축소한다.
- */
+/** WBS · 대용량 이미지 클라이언트 사이드 리사이징. */
 const MAX_DIMENSION = 1600;
 const RESIZE_THRESHOLD = 2 * 1024 * 1024;
 const JPEG_QUALITY = 0.85;

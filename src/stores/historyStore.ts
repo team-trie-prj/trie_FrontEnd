@@ -13,10 +13,7 @@ interface HistoryState {
   restoringId: string | null;
   actions: {
     load: () => Promise<void>;
-    /**
-     * FNC-HIS-01 · 복원: ① 로컬 캐시/상태 강제 무효화 →
-     * ② DB 스냅샷 1회성 fetch → ③ 캐시 오염 없이 상태 복원
-     */
+    /** FNC-HIS-01 · 복원: 캐시 무효화 → 스냅샷 fetch → 상태 복원 */
     restore: (sessionId: string) => Promise<boolean>;
   };
 }
@@ -58,8 +55,6 @@ export function addHistoryEntry(entry: HistoryEntry) {
     entries: [entry, ...s.entries].slice(0, MAX_ENTRIES),
   }));
 }
-
-// ===== atomic selectors =====
 export const useHistoryEntries = () => useHistoryStore((s) => s.entries);
 export const useRestoringId = () => useHistoryStore((s) => s.restoringId);
 export const useHistoryActions = () => useHistoryStore((s) => s.actions);

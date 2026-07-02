@@ -2,10 +2,7 @@ import { ENDPOINTS } from './endpoints';
 import { API_BASE_URL, USE_MOCK } from './config';
 import { MOCK_REPORT_MD } from '@/mocks/commonMocks';
 
-/**
- * FNC-REP-01 · 보고서 초안 생성 (스트리밍).
- * onChunk 로 마크다운 조각을 순차 전달 → 화면에 실시간 렌더링.
- */
+/** FNC-REP-01 · 보고서 초안 생성 (스트리밍). */
 export async function generateReport(
   sessionId: string,
   templateId: string,

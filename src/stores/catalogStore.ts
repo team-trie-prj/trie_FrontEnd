@@ -46,8 +46,6 @@ const useCatalogStore = create<CatalogState>()((set) => ({
     },
   },
 }));
-
-// ===== atomic selectors =====
 export const useCatalogEntries = () => useCatalogStore((s) => s.entries);
 export const useCatalogLoading = () => useCatalogStore((s) => s.loading);
 export const useCatalogRegistering = () => useCatalogStore((s) => s.registering);

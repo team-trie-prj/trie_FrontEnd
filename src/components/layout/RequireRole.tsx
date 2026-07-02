@@ -4,10 +4,7 @@ import { useUser } from '@/stores/authStore';
 import { ROUTES } from '@/constants/navigation';
 import type { User } from '@/types/auth';
 
-/**
- * WBS · RBAC 라우팅 가드.
- * FNC-DAT-01: 데이터/API 관리는 관리자(admin)·실무자(worker) 권한만 접근 가능.
- */
+/** WBS · RBAC 라우팅 가드. */
 export default function RequireRole({ roles }: { roles: User['role'][] }) {
   const navigate = useNavigate();
   const user = useUser();

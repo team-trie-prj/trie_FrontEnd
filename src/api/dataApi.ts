@@ -4,10 +4,7 @@ import { USE_MOCK } from './config';
 import { MOCK_DOCUMENTS } from '@/mocks/commonMocks';
 import type { StoredDocument, UploadStatus } from '@/types/data';
 
-/**
- * FNC-DAT-01 · 문서 업로드. mock 모드에선 업로드→파싱→임베딩 단계를 시뮬레이션.
- * onStage 콜백으로 진행 단계를 알려 스토어가 UI를 갱신한다.
- */
+/** FNC-DAT-01 · 문서 업로드. mock 모드에선 업로드→파싱→임베딩 단계를 시뮬레이션. */
 export async function uploadDocument(
   file: File,
   onStage: (status: UploadStatus, progress: number) => void,

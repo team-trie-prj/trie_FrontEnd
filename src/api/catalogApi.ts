@@ -9,10 +9,7 @@ export async function listCatalog(): Promise<ApiCatalogEntry[]> {
   return get<ApiCatalogEntry[]>(ENDPOINTS.catalog.list);
 }
 
-/**
- * FNC-PUB-01 · 등록 + 연동 테스트(1회 Ping & Request).
- * 실패 시 백엔드가 4xx 반환 → 저장 원천 차단, 프론트는 경고 노출.
- */
+/** FNC-PUB-01 · 등록 + 연동 테스트(1회 Ping & Request). */
 export async function registerCatalog(req: CatalogRegisterRequest): Promise<ApiCatalogEntry> {
   if (USE_MOCK) {
     await new Promise((r) => setTimeout(r, 800));

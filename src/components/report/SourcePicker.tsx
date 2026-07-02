@@ -9,10 +9,7 @@ interface Props {
   disabled?: boolean;
 }
 
-/**
- * 보고서 근거 데이터 선택 — 현재 검색 결과 또는 과거 검색 세션(FNC-HIS-01)을
- * 고를 수 있어 검색을 다시 하지 않고도 보고서를 생성할 수 있다.
- */
+/** 보고서 근거 데이터 선택 — 현재 검색 결과 또는 과거 검색 세션(FNC-HIS-01)을 */
 export default function SourcePicker({ selected, onSelect, disabled }: Props) {
   const response = useSearchResponse();
   const entries = useHistoryEntries();

@@ -5,10 +5,7 @@ import Label from '@/components/common/Label';
 import { ROUTES } from '@/constants/navigation';
 import { useSuggestedTemplates, useSearchActions } from '@/stores/searchStore';
 
-/**
- * FNC-SRC-02 · 모호 질의 시 맞춤형 질의 템플릿 역제안 패널.
- * "무시하고 검색 강행" 시 역제안 로직을 1회 스킵한다.
- */
+/** FNC-SRC-02 · 모호 질의 시 맞춤형 질의 템플릿 역제안 패널. */
 export default function TemplateSuggest() {
   const templates = useSuggestedTemplates();
   const { applyTemplate, dismissTemplates, submit } = useSearchActions();

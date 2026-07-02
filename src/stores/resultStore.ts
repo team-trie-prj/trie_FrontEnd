@@ -29,8 +29,6 @@ const useResultStore = create<ResultState>()((set) => ({
     toggleChartMode: () => set((s) => ({ chartMode: !s.chartMode })),
   },
 }));
-
-// ===== 컴포넌트 밖에서 호출하는 이벤트 함수 (검색/히스토리 복원용) =====
 export function setSearchResults(response: SearchResponse) {
   useResultStore.setState({ response, filter: 'all', snippetHit: null });
 }
@@ -39,8 +37,6 @@ export function setSearchResults(response: SearchResponse) {
 export function clearSearchResults() {
   useResultStore.setState({ response: null, filter: 'all', snippetHit: null });
 }
-
-// ===== atomic selectors =====
 export const useSearchResponse = () => useResultStore((s) => s.response);
 export const useResultFilter = () => useResultStore((s) => s.filter);
 export const useSnippetHit = () => useResultStore((s) => s.snippetHit);
