@@ -32,7 +32,6 @@ const toEntry = (c: ServerCatalog): ApiCatalogEntry => ({
 
 export async function listCatalog(): Promise<ApiCatalogEntry[]> {
   if (USE_MOCK) return Promise.resolve([...MOCK_CATALOG]);
-  // TODO(BE 확인 #3): GET /public-data 목록 응답 스키마 미기재 — 배열 가정
   return (await get<ServerCatalog[]>(ENDPOINTS.catalog.list)).map(toEntry);
 }
 

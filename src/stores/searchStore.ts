@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import * as searchApi from '@/api/searchApi';
-import { ClarifyError, VlmTimeoutError } from '@/api/searchApi';
-import { recordHistory } from '@/api/historyApi';
+import { ClarifyError, PromptBlockedError, VlmTimeoutError } from '@/api/searchApi';
 import { setSearchResults } from './resultStore';
 import { addHistoryEntry } from './historyStore';
 import { toast } from './uiStore';
@@ -64,7 +63,6 @@ const useSearchStore = create<SearchState>()((set, get) => ({
         set({ phase: 'searching' });
         const res = await searchApi.runSearch(queryText, image?.dataUrl);
         setSearchResults(res);
-        recordHistory(res, queryText, Boolean(image));
         addHistoryEntry({
           sessionId: res.sessionId,
           queryText,
@@ -80,6 +78,11 @@ const useSearchStore = create<SearchState>()((set, get) => ({
         }
         if (e instanceof ClarifyError) {
           set({ phase: 'suggesting', templates: e.templates });
+          return false;
+        }
+        if (e instanceof PromptBlockedError) {
+          set({ phase: 'error' });
+          toast(e.message);
           return false;
         }
         set({ phase: 'error' });

@@ -5,34 +5,37 @@ import { MOCK_HISTORY } from '@/mocks/commonMocks';
 import { mockSearchResponse } from '@/mocks/searchMocks';
 import { mapSearchResponse, type ServerSearchData } from './searchDto';
 import type { HistoryEntry, HistorySnapshot } from '@/types/history';
-import type { SearchResponse } from '@/types/search';
 
-/** FNC-HIS-01 · 히스토리 — API 명세서 history 섹션(GET/POST /history, GET·DELETE /history/{session_uuid}) 기준.
- *  TODO(BE 확인 #4-1): 상세 스키마는 노션 내보내기 Part-2 미포함 — 목록 응답 { session_uuid, query, domain } 화면 캡처 기준 매핑 */
+/** FNC-HIS-01 · 히스토리 — 확정 명세(2026-07-06 CSV 내보내기) 기준.
+ *  기록(POST)은 result_snapshot(검색 결과 원본) 포함, 복원(GET)은 result_snapshot을 되돌려준다. */
 
 interface ServerHistoryEntry {
   session_uuid: string;
   query: string;
   domain?: string;
-  has_image?: boolean;
   created_at?: string;
+}
+
+interface ServerHistorySnapshot extends ServerHistoryEntry {
+  result_snapshot: ServerSearchData;
 }
 
 const toEntry = (h: ServerHistoryEntry): HistoryEntry => ({
   sessionId: h.session_uuid,
   queryText: h.query,
-  hasImage: Boolean(h.has_image),
+  hasImage: false, // 명세에 이미지 여부 필드 없음 — 스냅샷 복원으로 대체
   createdAt: h.created_at ?? new Date().toISOString(),
 });
 
-/** 검색 성공 시 명시적 기록 (POST /history) — 실패해도 검색 흐름은 막지 않음 */
-export function recordHistory(search: SearchResponse, queryText: string, hasImage: boolean) {
+/** 검색 성공 시 명시적 기록 (POST /history) — 서버 원본 결과를 result_snapshot으로 동봉.
+ *  실패해도 검색 흐름은 막지 않는다. */
+export function recordHistory(sessionId: string, queryText: string, snapshot: ServerSearchData) {
   if (USE_MOCK) return;
   void post(ENDPOINTS.history.record, {
-    session_uuid: search.sessionId,
+    session_uuid: sessionId,
     query: queryText,
-    domain: 'etc',
-    has_image: hasImage,
+    domain: snapshot.agent?.domain ?? 'etc',
+    result_snapshot: snapshot,
   }).catch(() => undefined);
 }
 
@@ -48,12 +51,9 @@ export async function fetchSnapshot(sessionId: string): Promise<HistorySnapshot>
     await new Promise((r) => setTimeout(r, 500));
     return { entry, search: mockSearchResponse(entry.queryText, entry.hasImage) };
   }
-  // TODO(BE 확인 #4-2): 스냅샷 응답 형태 가정 — { session_uuid, query, ..., agent, search } (/search data와 동형)
-  const data = await get<ServerHistoryEntry & ServerSearchData>(
-    ENDPOINTS.history.snapshot(sessionId),
-  );
+  const data = await get<ServerHistorySnapshot>(ENDPOINTS.history.snapshot(sessionId));
   const entry = toEntry(data);
-  return { entry, search: mapSearchResponse(data, entry.sessionId) };
+  return { entry, search: mapSearchResponse(data.result_snapshot, entry.sessionId) };
 }
 
 /** 이력 삭제 (DELETE /history/{session_uuid}) */

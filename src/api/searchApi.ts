@@ -1,4 +1,5 @@
 import { post, postEnvelope } from './client';
+import { recordHistory } from './historyApi';
 import { ENDPOINTS } from './endpoints';
 import { USE_MOCK } from './config';
 import { MOCK_TEMPLATES, mockSearchResponse } from '@/mocks/searchMocks';
@@ -27,7 +28,21 @@ export class ClarifyError extends Error {
   }
 }
 
+/** 서버 프롬프트 인젝션 검사에서 차단 권고된 질의 */
+export class PromptBlockedError extends Error {}
+
 export const VLM_TIMEOUT_MS = 15000;
+
+/** FNC 보안 · 질의 프롬프트 인젝션 사전 검사 (POST /security/prompt-check) */
+async function promptCheck(text: string): Promise<void> {
+  const data = await post<{ flagged: boolean; matches: string[] }>(
+    ENDPOINTS.search.promptCheck,
+    { text },
+  );
+  if (data.flagged) {
+    throw new PromptBlockedError('허용되지 않는 질의 패턴이 감지되어 검색이 차단되었습니다.');
+  }
+}
 
 const isAmbiguous = (text: string) => text.trim().length > 0 && text.trim().length < 6;
 
@@ -69,6 +84,7 @@ export async function runSearch(text: string, imageDataUrl?: string): Promise<Se
     return mockSearchResponse(text, Boolean(imageDataUrl));
   }
 
+  await promptCheck(text);
   const sessionId = await issueSession();
   let queryText = text;
   let vlmContext: string | undefined;
@@ -87,5 +103,6 @@ export async function runSearch(text: string, imageDataUrl?: string): Promise<Se
   if (env.code === 'CLARIFY' || env.data.search === null) {
     throw new ClarifyError(mapClarifyTemplates(env.data, text));
   }
+  recordHistory(sessionId, text, env.data); // FNC-HIS-01 명시적 기록 (스냅샷 동봉)
   return mapSearchResponse(env.data, sessionId, vlmContext);
 }

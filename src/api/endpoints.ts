@@ -13,7 +13,7 @@ export const ENDPOINTS = {
   search: {
     query: '/search', // POST multipart(text, domain, image?) — CLARIFY(역제안) 포함
     analyze: '/search/analyze', // POST multipart — VLM 시각 맥락 + 통합 질의
-    promptCheck: '/security/prompt-check', // POST — body 명세 미기재 (BE 확인 #2)
+    promptCheck: '/security/prompt-check', // POST { text } → { flagged, matches } — 검색 전 사전 검사
   },
   data: {
     upload: '/documents', // POST multipart files[] (+domain) — Ingest/bulk 제거, 단일 창구 확정
@@ -23,7 +23,7 @@ export const ENDPOINTS = {
   },
   catalog: {
     register: '/public-data/catalog', // POST — 등록 (연동 테스트는 fetchTest로 별도)
-    list: '/public-data', // GET — 목록 응답 스키마 미기재 (BE 확인 #3)
+    list: '/public-data', // GET — 카탈로그 배열 (07-06 확정)
     remove: (id: string) => `/public-data/catalog/${id}`, // DELETE
     fetchTest: (id: string) => `/public-data/${id}/fetch`, // PATCH { entities } — 연동 테스트
   },
