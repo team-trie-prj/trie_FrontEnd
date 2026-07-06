@@ -27,7 +27,13 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    // TODO: 백엔드 서버 주소 확정 시 프록시 설정
-    // proxy: { '/api': { target: 'http://localhost:8000', changeOrigin: true } },
+    // 백엔드 로컬 기동 시: VITE_API_BASE_URL 미설정(/api) → 아래 프록시가 루트 경로로 전달
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api/, ''),
+      },
+    },
   },
 });

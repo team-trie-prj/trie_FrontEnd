@@ -9,7 +9,7 @@ interface ReportState {
   status: ReportStatus;
   actions: {
     /** 스트리밍 생성 — 청크 수신마다 markdown append */
-    generate: (sessionId: string, templateId: string) => Promise<void>;
+    generate: (sessionId: string, templateId: string, query?: string) => Promise<void>;
     /** WYSIWYG 인라인 편집 반영 (FNC-REP-02) */
     setMarkdown: (markdown: string) => void;
     reset: () => void;
@@ -20,7 +20,7 @@ const useReportStore = create<ReportState>()((set) => ({
   draft: null,
   status: 'idle',
   actions: {
-    generate: async (sessionId, templateId) => {
+    generate: async (sessionId, templateId, query) => {
       set({
         status: 'streaming',
         draft: {
@@ -31,10 +31,14 @@ const useReportStore = create<ReportState>()((set) => ({
         },
       });
       try {
-        await reportApi.generateReport(sessionId, templateId, (chunk) =>
-          set((s) =>
-            s.draft ? { draft: { ...s.draft, markdown: s.draft.markdown + chunk } } : s,
-          ),
+        await reportApi.generateReport(
+          sessionId,
+          templateId,
+          (chunk) =>
+            set((s) =>
+              s.draft ? { draft: { ...s.draft, markdown: s.draft.markdown + chunk } } : s,
+            ),
+          query,
         );
         set({ status: 'done' });
       } catch {

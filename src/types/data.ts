@@ -17,7 +17,8 @@ export interface UploadItem {
 export interface StoredDocument {
   id: string;
   fileName: string;
-  size: number;
+  /** 파싱된 글자 수 (서버 char_count) */
+  charCount: number;
   /** 시맨틱 청킹 후 임베딩된 청크 수 */
   chunkCount: number;
   domain: string;

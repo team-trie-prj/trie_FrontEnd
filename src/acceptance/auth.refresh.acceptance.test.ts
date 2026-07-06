@@ -15,7 +15,12 @@ describe('인수: Silent Refresh (FNC-AUTH-01)', () => {
     const fetchMock = vi
       .fn()
       .mockResolvedValueOnce(new Response('unauthorized', { status: 401 }))
-      .mockResolvedValueOnce(new Response(JSON.stringify({ ok: true }), { status: 200 }));
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({ success: true, code: 'OK', message: '', data: { ok: true } }),
+          { status: 200 },
+        ),
+      );
     vi.stubGlobal('fetch', fetchMock);
 
     const data = await request<{ ok: boolean }>('/protected');

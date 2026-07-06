@@ -9,6 +9,7 @@ import SourcePickerModal from '@/components/report/SourcePickerModal';
 import { exportReport } from '@/utils/exporters';
 import { REPORT_TEMPLATES } from '@/constants/reportTemplates';
 import { useSearchResponse } from '@/stores/resultStore';
+import { useQueryText } from '@/stores/searchStore';
 import { useHistoryEntries, useHistoryActions } from '@/stores/historyStore';
 import { useReportDraft, useReportStatus, useReportActions } from '@/stores/reportStore';
 import { toast } from '@/stores/uiStore';
@@ -16,6 +17,7 @@ import { toast } from '@/stores/uiStore';
 /** 보고서 뷰어 (FNC-REP-01/02) — 근거 세션은 모달에서 선택 */
 export default function ReportPage() {
   const response = useSearchResponse();
+  const currentQuery = useQueryText();
   const entries = useHistoryEntries();
   const { load } = useHistoryActions();
   const draft = useReportDraft();
@@ -44,7 +46,11 @@ export default function ReportPage() {
       toast('근거 데이터를 선택하세요. (통합 검색 실행 또는 과거 세션 선택)');
       return;
     }
-    void generate(sessionId, templateId);
+    const query =
+      sessionId === response?.sessionId
+        ? currentQuery
+        : entries.find((e) => e.sessionId === sessionId)?.queryText;
+    void generate(sessionId, templateId, query);
   };
 
   const onExport = (format: 'pdf' | 'docx') => {

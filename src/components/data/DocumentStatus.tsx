@@ -4,7 +4,6 @@ import Icon from '@/components/common/Icon';
 import Label from '@/components/common/Label';
 import DocumentRow from './DocumentRow';
 import { deleteDocument, listDocuments } from '@/api/dataApi';
-import { formatBytes } from '@/utils/fileValidators';
 import { toast } from '@/stores/uiStore';
 import type { StoredDocument } from '@/types/data';
 
@@ -34,7 +33,7 @@ export default function DocumentStatus() {
       (d) => !q || d.fileName.toLowerCase().includes(q) || d.domain.toLowerCase().includes(q),
     ) ?? null;
   const totalChunks = docs?.reduce((n, d) => n + d.chunkCount, 0) ?? 0;
-  const totalSize = docs?.reduce((n, d) => n + d.size, 0) ?? 0;
+  const totalChars = docs?.reduce((n, d) => n + d.charCount, 0) ?? 0;
 
   return (
     <Card className="mt-6 overflow-hidden p-0">
@@ -55,7 +54,7 @@ export default function DocumentStatus() {
         {[
           ['적재 문서', docs ? `${docs.length}건` : '—'],
           ['임베딩 청크', docs ? totalChunks.toLocaleString() : '—'],
-          ['총 용량', docs ? formatBytes(totalSize) : '—'],
+          ['총 글자 수', docs ? `${totalChars.toLocaleString()}자` : '—'],
         ].map(([k, v]) => (
           <div key={k} className="bg-black p-5 text-center max-[480px]:p-3">
             <div className="text-[26px] font-light max-[480px]:text-lg">{v}</div>

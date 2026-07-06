@@ -27,6 +27,7 @@ export default function App() {
       <Suspense fallback={fallback}>
         <Routes>
           <Route path={ROUTES.login} element={<LoginPage />} />
+          <Route path="/oauth/kakao/callback" element={<LoginPage />} />
           <Route element={<AppLayout />}>
             <Route element={<RequireAuth />}>
               <Route path={ROUTES.search} element={<SearchPage />} />

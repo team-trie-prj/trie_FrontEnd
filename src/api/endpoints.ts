@@ -1,28 +1,43 @@
-/** ⚠️ API 명세서 미확정 — 아래 경로는 자리표시자(placeholder)입니다. */
+/** 백엔드 API 명세(2026-07 APISpec) 기준 실경로.
+ *  서버 미배포 상태 — VITE_USE_MOCK=false 전환 시 사용. 공백 항목은 docs/백엔드_연동_질의_2026-07-06.md 참조. */
 export const ENDPOINTS = {
   auth: {
-    kakaoLogin: '/auth/kakao', // POST { code } → LoginResponse
-    refresh: '/auth/refresh', // POST { refreshToken } → TokenPair
-    logout: '/auth/logout', // POST
+    kakaoLogin: '/auth/kakao', // 명세 v1=POST, v2=GET 상충 — POST 채택 (BE 확인 #1)
+    refresh: '/auth/refresh', // POST { refresh_token }
+    logout: '/auth/logout', // POST (Bearer)
+    me: '/auth/me', // GET — 새로고침 시 인증 확인
+  },
+  session: {
+    issue: '/sessions', // POST → { session_uuid } (검색 세션 UUID 서버 발급)
   },
   search: {
-    query: '/search/query', // POST { text, imageBase64? } → SearchResponse
-    route: '/search/route', // POST (FNC-SRC-02 라우팅/템플릿 제안)
+    query: '/search', // POST multipart(text, domain, image?) — CLARIFY(역제안) 포함
+    analyze: '/search/analyze', // POST multipart — VLM 시각 맥락 + 통합 질의
+    promptCheck: '/security/prompt-check', // POST — body 명세 미기재 (BE 확인 #2)
   },
   data: {
-    upload: '/documents/upload', // POST multipart (PDF/DOCX ≤ 20MB)
+    upload: '/documents', // POST multipart files[] (+domain)
     list: '/documents', // GET
-    remove: (id: string) => `/documents/${id}`, // DELETE (명세 외 — BE 협의 필요)
+    remove: (id: string) => `/documents/${id}`, // DELETE (정식 명세 반영됨)
+    detail: (id: string) => `/document/${id}`, // GET
   },
   catalog: {
-    register: '/catalog/apis', // POST CatalogRegisterRequest (등록+연동 테스트)
-    list: '/catalog/apis', // GET
+    register: '/public-data/catalog', // POST — 등록 (연동 테스트는 fetchTest로 별도)
+    list: '/public-data', // GET — 목록 응답 스키마 미기재 (BE 확인 #3)
+    remove: (id: string) => `/public-data/catalog/${id}`, // DELETE
+    fetchTest: (id: string) => `/public-data/${id}/fetch`, // PATCH { entities } — 연동 테스트
+  },
+  apiKeys: {
+    upsert: '/api-keys', // POST { name, provider, secret, description }
+    list: '/api-keys', // GET
+    remove: (name: string) => `/api-keys/${name}`, // DELETE
   },
   report: {
-    generate: '/reports/generate', // POST (SSE/stream 마크다운)
+    generate: '/reports', // POST { query, domain, report_type, session_id } — 단건 응답(SSE 아님)
+    byId: (id: string) => `/reports/${id}`, // GET
   },
-  history: {
-    list: '/history', // GET → HistoryEntry[] (최대 50, FIFO)
-    snapshot: (sessionId: string) => `/history/${sessionId}`, // GET → HistorySnapshot
+  system: {
+    health: '/system', // GET
   },
+  // history: BE 미제공 — 목록/스냅샷 API 필요 (BE 확인 #4). 전까지 클라이언트 로컬 보관.
 } as const;

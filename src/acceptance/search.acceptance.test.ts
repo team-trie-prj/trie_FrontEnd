@@ -105,7 +105,13 @@ describe('인수: 동일 쿼리 반복 호출 캐시 차단 (FNC-SRC-03)', () =>
   it('매 호출마다 고유 세션 UUID + Cache-Control: no-cache가 강제된다', async () => {
     const fetchMock = vi
       .fn()
-      .mockImplementation(async () => new Response(JSON.stringify({ ok: true }), { status: 200 }));
+      .mockImplementation(
+        async () =>
+          new Response(
+            JSON.stringify({ success: true, code: 'OK', message: '', data: { ok: true } }),
+            { status: 200 },
+          ),
+      );
     vi.stubGlobal('fetch', fetchMock);
 
     await request('/search', { method: 'POST', body: '{}' });

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Icon from '@/components/common/Icon';
-import { formatBytes } from '@/utils/fileValidators';
 import type { StoredDocument } from '@/types/data';
 
 interface Props {
@@ -18,7 +17,7 @@ export default function DocumentRow({ doc, onDelete }: Props) {
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium">{doc.fileName}</p>
         <p className="mt-0.5 text-xs text-mut3">
-          {doc.domain} · 청크 {doc.chunkCount}개 · {formatBytes(doc.size)} ·{' '}
+          {doc.domain} · 청크 {doc.chunkCount}개 · {doc.charCount.toLocaleString()}자 ·{' '}
           {doc.uploadedAt.slice(0, 10)}
         </p>
       </div>

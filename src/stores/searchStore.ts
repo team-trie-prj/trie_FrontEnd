@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import * as searchApi from '@/api/searchApi';
-import { VlmTimeoutError } from '@/api/searchApi';
+import { ClarifyError, VlmTimeoutError } from '@/api/searchApi';
+import { cacheSnapshot } from '@/api/historyApi';
 import { setSearchResults } from './resultStore';
 import { addHistoryEntry } from './historyStore';
 import { toast } from './uiStore';
@@ -63,6 +64,7 @@ const useSearchStore = create<SearchState>()((set, get) => ({
         set({ phase: 'searching' });
         const res = await searchApi.runSearch(queryText, image?.dataUrl);
         setSearchResults(res);
+        cacheSnapshot(res, queryText, Boolean(image));
         addHistoryEntry({
           sessionId: res.sessionId,
           queryText,
@@ -74,6 +76,10 @@ const useSearchStore = create<SearchState>()((set, get) => ({
       } catch (e) {
         if (e instanceof VlmTimeoutError) {
           set({ phase: 'vlm_timeout' });
+          return false;
+        }
+        if (e instanceof ClarifyError) {
+          set({ phase: 'suggesting', templates: e.templates });
           return false;
         }
         set({ phase: 'error' });
