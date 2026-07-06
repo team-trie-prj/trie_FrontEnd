@@ -2,7 +2,7 @@
  *  서버 미배포 상태 — VITE_USE_MOCK=false 전환 시 사용. 공백 항목은 docs/백엔드_연동_질의_2026-07-06.md 참조. */
 export const ENDPOINTS = {
   auth: {
-    kakaoLogin: '/auth/kakao', // 명세 v1=POST, v2=GET 상충 — POST 채택 (BE 확인 #1)
+    kakaoLogin: '/auth/kakao', // GET + 쿼리(code, redirect_uri) — 2026-07-06 개정 명세로 확정
     refresh: '/auth/refresh', // POST { refresh_token }
     logout: '/auth/logout', // POST (Bearer)
     me: '/auth/me', // GET — 새로고침 시 인증 확인
@@ -16,7 +16,7 @@ export const ENDPOINTS = {
     promptCheck: '/security/prompt-check', // POST — body 명세 미기재 (BE 확인 #2)
   },
   data: {
-    upload: '/documents', // POST multipart files[] (+domain)
+    upload: '/documents', // POST multipart files[] (+domain) — Ingest/bulk 제거, 단일 창구 확정
     list: '/documents', // GET
     remove: (id: string) => `/documents/${id}`, // DELETE (정식 명세 반영됨)
     detail: (id: string) => `/document/${id}`, // GET

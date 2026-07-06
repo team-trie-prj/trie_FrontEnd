@@ -26,13 +26,11 @@ const toUser = (u: ServerUser): User => ({
   role: u.role === 'admin' || u.role === 'viewer' ? u.role : 'worker',
 });
 
-/** FNC-AUTH-01 · 카카오 인가 코드 → 서비스 토큰 발급 */
+/** FNC-AUTH-01 · 카카오 인가 코드 → 서비스 토큰 발급 (명세 개정: GET + 쿼리 파라미터) */
 export async function loginWithKakao(code: string): Promise<LoginResponse> {
   if (USE_MOCK) return Promise.resolve(MOCK_LOGIN);
-  const data = await post<ServerTokens>(ENDPOINTS.auth.kakaoLogin, {
-    code,
-    redirect_uri: KAKAO_REDIRECT_URI,
-  });
+  const qs = `code=${encodeURIComponent(code)}&redirect_uri=${encodeURIComponent(KAKAO_REDIRECT_URI)}`;
+  const data = await get<ServerTokens>(`${ENDPOINTS.auth.kakaoLogin}?${qs}`);
   return {
     user: data.user ? toUser(data.user) : { id: '0', nickname: '사용자', role: 'worker' },
     tokens: { accessToken: data.access_token, refreshToken: data.refresh_token ?? '' },
