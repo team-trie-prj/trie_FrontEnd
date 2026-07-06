@@ -34,13 +34,13 @@ describe('인수: 이미지 첨부 제약 (FNC-SRC-01)', () => {
     expect(validateImage(asFile('image/bmp', 2 * MB))).toContain('JPG 또는 PNG');
   });
 
-  // 인수 기준: 6MB JPG 즉시 거부. 현 구현은 WBS의 클라이언트 리사이징 정책에 따라
-  // 축소 후 5MB 재검증(원본 6MB도 축소되면 허용될 수 있음) — 협의 필요.
-  it.fails('[협의] 6MB JPG는 즉시 거부되어야 한다', () => {
-    expect(validateImage(asFile('image/jpeg', 6 * MB))).not.toBeNull();
+  // 협의 확정(2026-07-06): 리사이징 유지 — 5MB 초과 원본은 축소 후 5MB 재검증
+  it('6MB JPG·8MB PNG는 리사이징 대상으로 선통과된다 (협의 확정)', () => {
+    expect(validateImage(asFile('image/jpeg', 6 * MB))).toBeNull();
+    expect(validateImage(asFile('image/png', 8 * MB))).toBeNull();
   });
 
-  it('8MB PNG도 리사이징 대상으로 선통과된다(동일 협의 사항) — 30MB 초과는 즉시 거부', () => {
+  it('30MB 초과 원본은 리사이징 불가 대상으로 즉시 거부된다', () => {
     expect(validateImage(asFile('image/png', 31 * MB))).toContain('30MB');
   });
 });

@@ -71,13 +71,11 @@ describe('인수: RBAC 보호 라우트 접근 제어', () => {
     cleanup();
   });
 
-  // 인수 기준: 실무자는 데이터 관리 차단.
-  // 현 구현은 기능명세서(FNC-DAT-01 사전조건: "관리자 또는 실무자")를 따라 허용 —
-  // 문서 간 상충으로 협의 필요. 협의 전까지 expected-fail 처리.
-  it.fails('[협의] 실무자 → 데이터 관리 화면 차단', async () => {
+  // 협의 확정(2026-07-06): 기능명세서(78행) 기준 허용 — 인수 기준 문서 수정 요청 발행
+  it('실무자 → 데이터 관리 화면 허용 (협의 확정)', async () => {
     await loginAs('worker');
     render(<Guarded initialPath="/data" />);
-    expect(screen.queryByText('DATA_OK')).toBeNull();
+    expect(screen.getByText('DATA_OK')).toBeDefined();
     cleanup();
   });
 });
