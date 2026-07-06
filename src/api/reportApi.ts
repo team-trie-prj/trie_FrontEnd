@@ -1,9 +1,9 @@
-import { post } from './client';
+import { postRaw } from './client';
 import { ENDPOINTS } from './endpoints';
 import { USE_MOCK } from './config';
 import { MOCK_REPORT_MD } from '@/mocks/commonMocks';
 
-/** FE 양식 ID → 서버 report_type. TODO(BE 확인 #9): 값 목록 합의 (명세 예시: inspection_log) */
+/** FE 양식 ID → 서버 report_type (허용값: inspection_log·civil_brief·analysis·improvement_reco·situation_brief) */
 const REPORT_TYPE_BY_TEMPLATE: Record<string, string> = {
   'safety-check': 'inspection_log',
   'civil-brief': 'civil_brief',
@@ -11,8 +11,8 @@ const REPORT_TYPE_BY_TEMPLATE: Record<string, string> = {
 };
 
 interface ServerReport {
-  id: number;
-  session_id: string | null;
+  id: number | null;
+  session_id: string;
   content: string;
   sources?: { document_id: number; chunk_index: number; source: string }[];
   created_at: string;
@@ -34,7 +34,7 @@ export async function generateReport(
     }
     return;
   }
-  const data = await post<ServerReport>(ENDPOINTS.report.generate, {
+  const data = await postRaw<ServerReport>(ENDPOINTS.report.generate, {
     query: query ?? '',
     domain: 'etc',
     report_type: REPORT_TYPE_BY_TEMPLATE[templateId] ?? templateId,

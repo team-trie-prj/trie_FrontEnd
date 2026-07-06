@@ -1,4 +1,4 @@
-import { del, get, patch, post } from './client';
+import { del, get, post } from './client';
 import { ENDPOINTS } from './endpoints';
 import { USE_MOCK } from './config';
 import { MOCK_CATALOG } from '@/mocks/commonMocks';
@@ -74,7 +74,7 @@ export async function registerCatalog(req: CatalogRegisterRequest): Promise<ApiC
     api_key_param: 'serviceKey', // TODO(BE 확인 #10): 키 파라미터명 입력 UI 필요 여부
   });
   try {
-    await patch(ENDPOINTS.catalog.fetchTest(String(created.id)), { entities: {} });
+    await post(ENDPOINTS.catalog.fetchTest(String(created.id)), { entities: {} });
   } catch (e) {
     await del(ENDPOINTS.catalog.remove(String(created.id))).catch(() => undefined);
     throw new Error(`API 연동 실패: ${e instanceof Error ? e.message : '테스트 호출 실패'}`);

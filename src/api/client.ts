@@ -90,3 +90,29 @@ export const patch = <T>(path: string, body?: unknown) =>
   request<T>(path, { method: 'PATCH', body: JSON.stringify(body ?? {}) });
 
 export const del = <T>(path: string) => request<T>(path, { method: 'DELETE' });
+
+/** vikira 경로(/api/v1/*)는 Envelope 없이 raw 응답 · 오류는 {detail} */
+export async function requestRaw<T>(path: string, init: RequestInit = {}, retried = false): Promise<T> {
+  const res = await fetch(API_BASE_URL + path, {
+    ...init,
+    headers: buildHeaders(init),
+    cache: 'no-store',
+  });
+  if (res.status === 401) {
+    if (!retried && (await tryRefresh())) return requestRaw<T>(path, init, true);
+    throw new ApiError(401, '인증이 만료되었습니다. 다시 로그인해주세요.', 'UNAUTHORIZED');
+  }
+  const body = (await res.json().catch(() => null)) as (T & { detail?: unknown }) | null;
+  if (!res.ok) {
+    const detail = body && typeof body.detail === 'string' ? body.detail : res.statusText;
+    throw new ApiError(res.status, detail);
+  }
+  if (body === null) throw new ApiError(res.status, '서버 응답 형식이 올바르지 않습니다.');
+  return body as T;
+}
+
+export const postRaw = <T>(path: string, body?: unknown) =>
+  requestRaw<T>(path, {
+    method: 'POST',
+    body: body instanceof FormData ? body : body !== undefined ? JSON.stringify(body) : undefined,
+  });

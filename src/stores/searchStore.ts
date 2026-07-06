@@ -61,7 +61,7 @@ const useSearchStore = create<SearchState>()((set, get) => ({
           return false;
         }
         set({ phase: 'searching' });
-        const res = await searchApi.runSearch(queryText, image?.dataUrl);
+        const res = await searchApi.runSearch(queryText, image?.dataUrl, skipOnce);
         setSearchResults(res);
         addHistoryEntry({
           sessionId: res.sessionId,

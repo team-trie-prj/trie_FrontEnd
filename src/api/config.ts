@@ -5,4 +5,6 @@ export const USE_MOCK: boolean = (import.meta.env.VITE_USE_MOCK ?? 'true') === '
 
 export const KAKAO_CLIENT_ID: string = import.meta.env.VITE_KAKAO_CLIENT_ID ?? '';
 export const KAKAO_REDIRECT_URI: string =
-  import.meta.env.VITE_KAKAO_REDIRECT_URI ?? window.location.origin + '/oauth/kakao/callback';
+  import.meta.env.VITE_KAKAO_REDIRECT_URI ??
+  (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173') +
+    '/oauth/kakao/callback';
