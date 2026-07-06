@@ -39,5 +39,10 @@ export const ENDPOINTS = {
   system: {
     health: '/system', // GET
   },
-  // history: BE 미제공 — 목록/스냅샷 API 필요 (BE 확인 #4). 전까지 클라이언트 로컬 보관.
+  history: {
+    list: '/history', // GET — 이력 목록
+    record: '/history', // POST — 명시적 기록 (검색 성공 시)
+    snapshot: (sessionId: string) => `/history/${sessionId}`, // GET — 스냅샷 복원(질의+검색 결과)
+    remove: (sessionId: string) => `/history/${sessionId}`, // DELETE — 이력 삭제
+  },
 } as const;

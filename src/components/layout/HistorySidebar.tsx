@@ -37,7 +37,7 @@ export default function HistorySidebar() {
 function SidebarContent({ onClose }: { onClose: () => void }) {
   const entries = useHistoryEntries();
   const restoringId = useRestoringId();
-  const { restore } = useHistoryActions();
+  const { restore, remove } = useHistoryActions();
   const navigate = useNavigate();
   const trapRef = useFocusTrap<HTMLDivElement>(onClose);
 
@@ -68,6 +68,7 @@ function SidebarContent({ onClose }: { onClose: () => void }) {
             entry={e}
             restoring={restoringId === e.sessionId}
             onRestore={onRestore}
+            onRemove={(id) => void remove(id)}
           />
         ))}
       </div>

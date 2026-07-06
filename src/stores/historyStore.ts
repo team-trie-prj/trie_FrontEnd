@@ -15,6 +15,7 @@ interface HistoryState {
     load: () => Promise<void>;
     /** FNC-HIS-01 · 복원: 캐시 무효화 → 스냅샷 fetch → 상태 복원 */
     restore: (sessionId: string) => Promise<boolean>;
+    remove: (sessionId: string) => Promise<void>;
   };
 }
 
@@ -44,6 +45,14 @@ const useHistoryStore = create<HistoryState>()((set) => ({
         return false;
       } finally {
         set({ restoringId: null });
+      }
+    },
+    remove: async (sessionId) => {
+      try {
+        await historyApi.deleteHistory(sessionId);
+        set((s) => ({ entries: s.entries.filter((e) => e.sessionId !== sessionId) }));
+      } catch {
+        toast('이력 삭제에 실패했습니다.');
       }
     },
   },

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import * as searchApi from '@/api/searchApi';
 import { ClarifyError, VlmTimeoutError } from '@/api/searchApi';
-import { cacheSnapshot } from '@/api/historyApi';
+import { recordHistory } from '@/api/historyApi';
 import { setSearchResults } from './resultStore';
 import { addHistoryEntry } from './historyStore';
 import { toast } from './uiStore';
@@ -64,7 +64,7 @@ const useSearchStore = create<SearchState>()((set, get) => ({
         set({ phase: 'searching' });
         const res = await searchApi.runSearch(queryText, image?.dataUrl);
         setSearchResults(res);
-        cacheSnapshot(res, queryText, Boolean(image));
+        recordHistory(res, queryText, Boolean(image));
         addHistoryEntry({
           sessionId: res.sessionId,
           queryText,
